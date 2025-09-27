@@ -1,0 +1,3518 @@
+# ==================================================
+# Path: E:\HTMLCSS\PROJECT_ONTAP\Project_Movix_Demo\movix-booking-app
+# Detected tech: docker, gitlab_ci, javascript, python, react, typescript
+# ==================================================
+
+## DIRECTORY STRUCTURE
+```
+movix-booking-app/
+├── .git/
+├── node_modules/
+├── public/
+│   ├── favicon.ico
+│   ├── index.html
+│   ├── logo192.png
+│   ├── logo512.png
+│   ├── manifest.json
+│   └── robots.txt
+├── src/
+│   ├── api/
+│   │   └── movieApi.js
+│   ├── assets/
+│   ├── components/
+│   │   ├── Chatbot/
+│   │   │   ├── Chatbot.jsx
+│   │   │   └── style.css
+│   │   ├── MovieCard/
+│   │   │   ├── MovieCard.jsx
+│   │   │   └── style.css
+│   │   ├── SeatSelector/
+│   │   │   ├── SeatSelector.jsx
+│   │   │   └── style.css
+│   │   ├── common/
+│   │   └── layout/
+│   │       ├── Footer.jsx
+│   │       └── Navbar.jsx
+│   ├── configs/
+│   │   └── geminiConfig.js
+│   ├── hooks/
+│   │   └── useMovies.js
+│   ├── pages/
+│   │   ├── BookingPage/
+│   │   │   └── BookingPage.jsx
+│   │   ├── HomePage/
+│   │   │   └── HomePage.jsx
+│   │   ├── MovieDetailPage/
+│   │   │   └── MovieDetailPage.jsx
+│   │   ├── MovieListPage/
+│   │   │   └── MovieListPage.jsx
+│   │   └── PaymentPage/
+│   │       └── PaymentPage.jsx
+│   ├── services/
+│   │   └── geminiService.js
+│   ├── utils/
+│   ├── App.css
+│   ├── App.js
+│   ├── App.test.js
+│   ├── còn
+│   ├── index.css
+│   ├── index.js
+│   ├── logo.svg
+│   ├── reportWebVitals.js
+│   ├── routes.js
+│   └── setupTests.js
+├── .gitignore
+├── README.md
+├── db.json
+├── package-lock.json
+├── package.json
+└── source_dump.txt
+```
+
+## FILE CONTENTS
+
+### src\App.js
+```js
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Layout, ConfigProvider } from 'antd';
+import viVN from 'antd/locale/vi_VN';
+
+// Components
+import Navbar from './components/layout/Navbar';
+import Footer from './components/layout/Footer';
+import Chatbot from './components/Chatbot/Chatbot';
+
+// Pages
+import HomePage from './pages/HomePage/HomePage';
+import MovieListPage from './pages/MovieListPage/MovieListPage';
+import MovieDetailPage from './pages/MovieDetailPage/MovieDetailPage';
+import BookingPage from './pages/BookingPage/BookingPage';
+import PaymentPage from './pages/PaymentPage/PaymentPage';
+
+// Routes
+import { ROUTES } from './routes';
+
+// Styles
+import 'antd/dist/reset.css';
+import './App.css';
+
+const { Content: AntContent } = Layout;
+
+function App() {
+  return (
+    <ConfigProvider 
+      locale={viVN}
+      theme={{
+        token: {
+          colorPrimary: '#1890ff',
+          borderRadius: 6,
+          fontFamily: '-apple-system, BlinkMacSystemFont, "Segui UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+        },
+      }}
+    >
+      <Router>
+        <Layout style={{ minHeight: '100vh' }}>
+          <Navbar />
+          
+          <AntContent style={{ flex: 1 }}>
+            <Routes>
+              {/* Trang chủ */}
+              <Route path={ROUTES.HOME} element={<HomePage />} />
+              
+              {/* Danh sách phim */}
+              <Route path={ROUTES.MOVIES} element={<MovieListPage />} />
+              
+              {/* Chi tiết phim */}
+              <Route path={ROUTES.MOVIE_DETAIL} element={<MovieDetailPage />} />
+              
+              {/* Đặt vé */}
+              <Route path={ROUTES.BOOKING} element={<BookingPage />} />
+              
+              {/* Thanh toán */}
+              <Route path={ROUTES.PAYMENT} element={<PaymentPage />} />
+              
+              {/* 404 - Trang không tìm thấy */}
+              <Route path="*" element={
+                <div style={{ 
+                  padding: '100px 20px', 
+                  textAlign: 'center',
+                  minHeight: '400px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  alignItems: 'center'
+                }}>
+                  <h1 style={{ fontSize: '72px', margin: 0, color: '#ccc' }}>404</h1>
+                  <h2 style={{ color: '#666' }}>Trang không tìm thấy</h2>
+                  <p style={{ color: '#999', marginBottom: '20px' }}>
+                    Trang bạn đang tìm kiếm không tồn tại.
+                  </p>
+                  <a href="/" style={{ color: '#1890ff' }}>Về trang chủ</a>
+                </div>
+              } />
+            </Routes>
+          </AntContent>
+          
+          <Footer />
+          
+          {/* AI Chatbot - floating */}
+          <Chatbot />
+        </Layout>
+      </Router>
+    </ConfigProvider>
+  );
+}
+
+export default App;
+```
+
+### src\App.test.js
+```js
+import { render, screen } from '@testing-library/react';
+import App from './App';
+
+test('renders learn react link', () => {
+  render(<App />);
+  const linkElement = screen.getByText(/learn react/i);
+  expect(linkElement).toBeInTheDocument();
+});
+
+```
+
+### src\index.js
+```js
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './App';
+import reportWebVitals from './reportWebVitals';
+
+// Create root element
+const root = ReactDOM.createRoot(document.getElementById('root'));
+
+// Render app
+root.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
+
+// Performance measuring (optional)
+// If you want to start measuring performance in your app, pass a function
+// to log results (for example: reportWebVitals(console.log))
+// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+reportWebVitals();
+```
+
+### src\reportWebVitals.js
+```js
+const reportWebVitals = onPerfEntry => {
+  if (onPerfEntry && onPerfEntry instanceof Function) {
+    import('web-vitals').then(({ getCLS, getFID, getFCP, getLCP, getTTFB }) => {
+      getCLS(onPerfEntry);
+      getFID(onPerfEntry);
+      getFCP(onPerfEntry);
+      getLCP(onPerfEntry);
+      getTTFB(onPerfEntry);
+    });
+  }
+};
+
+export default reportWebVitals;
+
+```
+
+### src\routes.js
+```js
+// Định nghĩa các routes của ứng dụng
+export const ROUTES = {
+  HOME: '/',
+  MOVIES: '/movies',
+  MOVIE_DETAIL: '/movies/:id',
+  BOOKING: '/booking/:showtimeId', 
+  PAYMENT: '/payment'
+};
+
+// Hàm helper để tạo path với params
+export const createPath = (route, params = {}) => {
+  let path = route;
+  
+  // Thay thế các params trong route
+  Object.keys(params).forEach(key => {
+    path = path.replace(`:${key}`, params[key]);
+  });
+  
+  return path;
+};
+
+export default ROUTES;
+```
+
+### src\setupTests.js
+```js
+// jest-dom adds custom jest matchers for asserting on DOM nodes.
+// allows you to do things like:
+// expect(element).toHaveTextContent(/react/i)
+// learn more: https://github.com/testing-library/jest-dom
+import '@testing-library/jest-dom';
+
+```
+
+### src\api\movieApi.js
+```js
+// Base API URL cho json-server
+const BASE_URL = 'http://localhost:3001';
+
+// Helper function để xử lý response
+const handleResponse = async (response) => {
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+  return await response.json();
+};
+
+// Movie API
+export const movieApi = {
+  // Lấy tất cả phim
+  getAllMovies: async () => {
+    const response = await fetch(`${BASE_URL}/movies`);
+    return { data: await handleResponse(response) };
+  },
+
+  // Lấy phim theo ID
+  getMovieById: async (id) => {
+    const response = await fetch(`${BASE_URL}/movies/${id}`);
+    return { data: await handleResponse(response) };
+  },
+
+  // Lấy phim theo status
+  getMoviesByStatus: async (status) => {
+    const response = await fetch(`${BASE_URL}/movies?status=${status}`);
+    return { data: await handleResponse(response) };
+  },
+
+  // Tìm kiếm phim
+  searchMovies: async (query) => {
+    const response = await fetch(`${BASE_URL}/movies`);
+    const movies = await handleResponse(response);
+    
+    // Tìm kiếm trong title, genre, cast, director
+    const filtered = movies.filter(movie => 
+      movie.title.toLowerCase().includes(query.toLowerCase()) ||
+      movie.genre.some(g => g.toLowerCase().includes(query.toLowerCase())) ||
+      movie.cast.some(c => c.toLowerCase().includes(query.toLowerCase())) ||
+      movie.director.toLowerCase().includes(query.toLowerCase())
+    );
+    
+    return { data: filtered };
+  }
+};
+
+// Showtime API
+export const showtimeApi = {
+  // Lấy tất cả suất chiếu
+  getAllShowtimes: async () => {
+    const response = await fetch(`${BASE_URL}/showtimes`);
+    return { data: await handleResponse(response) };
+  },
+
+  // Lấy suất chiếu theo ID
+  getShowtimeById: async (id) => {
+    const response = await fetch(`${BASE_URL}/showtimes/${id}`);
+    return { data: await handleResponse(response) };
+  },
+
+  // Lấy suất chiếu theo movieId
+  getShowtimesByMovieId: async (movieId) => {
+    const response = await fetch(`${BASE_URL}/showtimes?movieId=${movieId}`);
+    return { data: await handleResponse(response) };
+  }
+};
+
+// Seat API
+export const seatApi = {
+  // Lấy trạng thái ghế
+  getSeatStatus: async () => {
+    const response = await fetch(`${BASE_URL}/seatStatus`);
+    return { data: await handleResponse(response) };
+  },
+
+  // Cập nhật trạng thái ghế (giả lập)
+  updateSeatStatus: async (showtimeId, time, seats) => {
+    // Trong thực tế sẽ gọi API PATCH/PUT
+    console.log('Update seat status:', { showtimeId, time, seats });
+    return { success: true };
+  }
+};
+
+// Booking API
+export const bookingApi = {
+  // Lấy tất cả booking
+  getAllBookings: async () => {
+    const response = await fetch(`${BASE_URL}/bookings`);
+    return { data: await handleResponse(response) };
+  },
+
+  // Tạo booking mới
+  createBooking: async (bookingData) => {
+    const response = await fetch(`${BASE_URL}/bookings`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        ...bookingData,
+        id: Date.now(), // Tạo ID giả lập
+        createdAt: new Date().toISOString()
+      }),
+    });
+    return { data: await handleResponse(response) };
+  },
+
+  // Lấy booking theo ID
+  getBookingById: async (id) => {
+    const response = await fetch(`${BASE_URL}/bookings/${id}`);
+    return { data: await handleResponse(response) };
+  }
+};
+
+// Export default
+export default {
+  movieApi,
+  showtimeApi,
+  seatApi,
+  bookingApi
+};
+```
+
+### src\components\Chatbot\Chatbot.jsx
+```jsx
+import React, { useState, useEffect, useRef, useMemo } from 'react';
+import { 
+  Button, Card, Input, Avatar, Typography, Space, Spin,
+  Tooltip, Badge
+} from 'antd';
+import { 
+  MessageOutlined, SendOutlined, CloseOutlined, RobotOutlined,
+  UserOutlined, ClearOutlined
+} from '@ant-design/icons';
+import { askGemini } from '../../services/geminiService';
+import './style.css';
+
+const { Text } = Typography;
+const { TextArea } = Input;
+
+const Chatbot = () => {
+  // States
+  const [isOpen, setIsOpen] = useState(false);
+  const [messages, setMessages] = useState([]);
+  const [inputValue, setInputValue] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [hasNewMessage, setHasNewMessage] = useState(false);
+
+  // Refs
+  const messagesEndRef = useRef(null);
+  const inputRef = useRef(null);
+
+  // Tin nhắn chào mừng
+const welcomeMessage = useMemo(() => ({
+  id: Date.now(),
+  type: 'bot',
+  content: `👋 Xin chào! Tôi là trợ lý AI của Movix. 
+
+Tôi có thể giúp bạn:
+🎬 Tìm kiếm phim theo thể loại, diễn viên
+🔍 Gợi ý phim phù hợp với sở thích
+⭐ So sánh và đánh giá phim
+📅 Thông tin lịch chiếu
+
+Bạn muốn tìm loại phim nào hôm nay?`,
+  timestamp: new Date()
+}), []);
+
+  // Khởi tạo với tin nhắn chào mừng
+useEffect(() => {
+  if (messages.length === 0) {
+    setMessages([welcomeMessage]);
+  }
+}, [messages.length, welcomeMessage]);
+
+  // Auto scroll to bottom
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [messages]);
+
+  // Focus input khi mở chat
+  useEffect(() => {
+    if (isOpen && inputRef.current) {
+      setTimeout(() => inputRef.current.focus(), 100);
+    }
+  }, [isOpen]);
+
+  // Toggle chat window
+  const toggleChat = () => {
+    setIsOpen(!isOpen);
+    if (!isOpen) {
+      setHasNewMessage(false);
+    }
+  };
+
+  // Gửi tin nhắn
+  const sendMessage = async () => {
+    if (!inputValue.trim() || isLoading) return;
+
+    const userMessage = {
+      id: Date.now(),
+      type: 'user',
+      content: inputValue.trim(),
+      timestamp: new Date()
+    };
+
+    setMessages(prev => [...prev, userMessage]);
+    setInputValue('');
+    setIsLoading(true);
+
+    try {
+      // Gọi Gemini API
+      const response = await askGemini(inputValue.trim());
+      
+      const botMessage = {
+        id: Date.now() + 1,
+        type: 'bot',
+        content: response,
+        timestamp: new Date()
+      };
+
+      setMessages(prev => [...prev, botMessage]);
+      
+      // Nếu chat đang đóng, hiển thị notification
+      if (!isOpen) {
+        setHasNewMessage(true);
+      }
+
+    } catch (error) {
+      const errorMessage = {
+        id: Date.now() + 1,
+        type: 'bot',
+        content: 'Xin lỗi, tôi gặp lỗi khi xử lý câu hỏi của bạn. Vui lòng thử lại sau! 😅',
+        timestamp: new Date()
+      };
+
+      setMessages(prev => [...prev, errorMessage]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Xử lý Enter để gửi tin nhắn
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
+  };
+
+  // Clear chat
+  const clearChat = () => {
+    setMessages([welcomeMessage]);
+  };
+
+  // Format thời gian
+  const formatTime = (timestamp) => {
+    return timestamp.toLocaleTimeString('vi-VN', { 
+      hour: '2-digit', 
+      minute: '2-digit' 
+    });
+  };
+
+  // Quick suggestions
+  const quickSuggestions = [
+    'Gợi ý phim hành động hay',
+    'Phim hoạt hình cho gia đình',
+    'Phim đang chiếu hôm nay',
+    'Phim có rating cao nhất'
+  ];
+
+  const handleQuickSuggestion = (suggestion) => {
+    setInputValue(suggestion);
+    inputRef.current?.focus();
+  };
+
+  return (
+    <div className="chatbot-container">
+      {/* Chat Window */}
+      {isOpen && (
+        <Card 
+          className="chat-window"
+          title={
+            <Space>
+              <Avatar icon={<RobotOutlined />} style={{ backgroundColor: '#1890ff' }} />
+              <span>Trợ lý AI Movix</span>
+              <Badge status="success" text="Đang hoạt động" />
+            </Space>
+          }
+          extra={
+            <Space>
+              <Tooltip title="Xóa cuộc trò chuyện">
+                <Button 
+                  icon={<ClearOutlined />} 
+                  type="text" 
+                  size="small"
+                  onClick={clearChat}
+                />
+              </Tooltip>
+              <Button 
+                icon={<CloseOutlined />} 
+                type="text" 
+                size="small"
+                onClick={toggleChat}
+              />
+            </Space>
+          }
+          bodyStyle={{ padding: 0, height: '400px', display: 'flex', flexDirection: 'column' }}
+        >
+          {/* Messages Area */}
+          <div className="messages-container">
+            {messages.map((message) => (
+              <div
+                key={message.id}
+                className={`message ${message.type === 'user' ? 'user-message' : 'bot-message'}`}
+              >
+                <div className="message-avatar">
+                  <Avatar 
+                    icon={message.type === 'user' ? <UserOutlined /> : <RobotOutlined />}
+                    style={{ 
+                      backgroundColor: message.type === 'user' ? '#52c41a' : '#1890ff' 
+                    }}
+                    size="small"
+                  />
+                </div>
+                <div className="message-content">
+                  <div className="message-bubble">
+                    <Text style={{ whiteSpace: 'pre-wrap' }}>
+                      {message.content}
+                    </Text>
+                  </div>
+                  <div className="message-time">
+                    <Text type="secondary" style={{ fontSize: '11px' }}>
+                      {formatTime(message.timestamp)}
+                    </Text>
+                  </div>
+                </div>
+              </div>
+            ))}
+            
+            {/* Loading indicator */}
+            {isLoading && (
+              <div className="message bot-message">
+                <div className="message-avatar">
+                  <Avatar 
+                    icon={<RobotOutlined />}
+                    style={{ backgroundColor: '#1890ff' }}
+                    size="small"
+                  />
+                </div>
+                <div className="message-content">
+                  <div className="message-bubble">
+                    <Space>
+                      <Spin size="small" />
+                      <Text>Đang suy nghĩ...</Text>
+                    </Space>
+                  </div>
+                </div>
+              </div>
+            )}
+            
+            <div ref={messagesEndRef} />
+          </div>
+
+          {/* Quick Suggestions */}
+          {messages.length <= 1 && !isLoading && (
+            <div className="quick-suggestions">
+              <Text type="secondary" style={{ fontSize: '12px', marginBottom: '8px', display: 'block' }}>
+                Gợi ý câu hỏi:
+              </Text>
+              <Space wrap>
+                {quickSuggestions.map((suggestion, index) => (
+                  <Button
+                    key={index}
+                    size="small"
+                    type="dashed"
+                    onClick={() => handleQuickSuggestion(suggestion)}
+                  >
+                    {suggestion}
+                  </Button>
+                ))}
+              </Space>
+            </div>
+          )}
+
+          {/* Input Area */}
+          <div className="chat-input-container">
+            <Space.Compact style={{ width: '100%' }}>
+              <TextArea
+                ref={inputRef}
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+                onKeyPress={handleKeyPress}
+                placeholder="Nhập câu hỏi về phim..."
+                autoSize={{ minRows: 1, maxRows: 3 }}
+                disabled={isLoading}
+              />
+              <Button
+                type="primary"
+                icon={<SendOutlined />}
+                onClick={sendMessage}
+                disabled={!inputValue.trim() || isLoading}
+                loading={isLoading}
+              >
+                Gửi
+              </Button>
+            </Space.Compact>
+          </div>
+        </Card>
+      )}
+
+      {/* Chat Toggle Button */}
+      <Tooltip title={isOpen ? "Đóng chat" : "Chat với AI"} placement="left">
+        <Badge dot={hasNewMessage && !isOpen} offset={[-5, 5]}>
+          <Button
+            className="chat-toggle-btn"
+            type="primary"
+            shape="circle"
+            size="large"
+            icon={isOpen ? <CloseOutlined /> : <MessageOutlined />}
+            onClick={toggleChat}
+          />
+        </Badge>
+      </Tooltip>
+    </div>
+  );
+};
+
+export default Chatbot;
+```
+
+### src\components\layout\Footer.jsx
+```jsx
+import React from 'react';
+import { Layout, Row, Col, Typography, Space } from 'antd';
+import { 
+  FacebookOutlined, 
+  TwitterOutlined, 
+  InstagramOutlined, 
+  YoutubeOutlined,
+  MailOutlined,
+  PhoneOutlined
+} from '@ant-design/icons';
+
+const { Footer: AntFooter } = Layout;
+const { Title, Text, Link } = Typography;
+
+const Footer = () => {
+  return (
+    <AntFooter 
+      style={{ 
+        background: '#001529', 
+        color: 'white',
+        padding: '40px 5%'
+      }}
+    >
+      <Row gutter={[32, 32]}>
+        {/* Logo và mô tả */}
+        <Col xs={24} md={8}>
+          <Title level={3} style={{ color: 'white', marginBottom: '16px' }}>
+            🎬 MOVIX
+          </Title>
+          <Text style={{ color: 'rgba(255,255,255,0.7)', lineHeight: '1.6' }}>
+            Hệ thống đặt vé xem phim trực tuyến hiện đại với AI Chatbot thông minh. 
+            Trải nghiệm điện ảnh tuyệt vời với công nghệ tốt nhất.
+          </Text>
+          <div style={{ marginTop: '20px' }}>
+            <Space size="middle">
+              <Link href="#" style={{ color: 'rgba(255,255,255,0.7)', fontSize: '20px' }}>
+                <FacebookOutlined />
+              </Link>
+              <Link href="#" style={{ color: 'rgba(255,255,255,0.7)', fontSize: '20px' }}>
+                <TwitterOutlined />
+              </Link>
+              <Link href="#" style={{ color: 'rgba(255,255,255,0.7)', fontSize: '20px' }}>
+                <InstagramOutlined />
+              </Link>
+              <Link href="#" style={{ color: 'rgba(255,255,255,0.7)', fontSize: '20px' }}>
+                <YoutubeOutlined />
+              </Link>
+            </Space>
+          </div>
+        </Col>
+
+        {/* Liên kết nhanh */}
+        <Col xs={24} md={8}>
+          <Title level={4} style={{ color: 'white', marginBottom: '16px' }}>
+            Liên kết nhanh
+          </Title>
+          <Space direction="vertical" size="small">
+            <Link href="/" style={{ color: 'rgba(255,255,255,0.7)' }}>
+              Trang chủ
+            </Link>
+            <Link href="/movies" style={{ color: 'rgba(255,255,255,0.7)' }}>
+              Danh sách phim
+            </Link>
+            <Link href="#" style={{ color: 'rgba(255,255,255,0.7)' }}>
+              Về chúng tôi
+            </Link>
+            <Link href="#" style={{ color: 'rgba(255,255,255,0.7)' }}>
+              Điều khoản sử dụng
+            </Link>
+            <Link href="#" style={{ color: 'rgba(255,255,255,0.7)' }}>
+              Chính sách bảo mật
+            </Link>
+          </Space>
+        </Col>
+
+        {/* Liên hệ */}
+        <Col xs={24} md={8}>
+          <Title level={4} style={{ color: 'white', marginBottom: '16px' }}>
+            Liên hệ
+          </Title>
+          <Space direction="vertical" size="small">
+            <Space>
+              <MailOutlined style={{ color: 'rgba(255,255,255,0.7)' }} />
+              <Text style={{ color: 'rgba(255,255,255,0.7)' }}>
+                support@movix.vn
+              </Text>
+            </Space>
+            <Space>
+              <PhoneOutlined style={{ color: 'rgba(255,255,255,0.7)' }} />
+              <Text style={{ color: 'rgba(255,255,255,0.7)' }}>
+                1900 1234
+              </Text>
+            </Space>
+            <Text style={{ color: 'rgba(255,255,255,0.7)', lineHeight: '1.6' }}>
+              Địa chỉ: 123 Đường ABC, Quận XYZ, TP. Hồ Chí Minh
+            </Text>
+          </Space>
+        </Col>
+      </Row>
+
+      {/* Copyright */}
+      <div 
+        style={{
+          borderTop: '1px solid rgba(255,255,255,0.1)',
+          marginTop: '40px',
+          paddingTop: '20px',
+          textAlign: 'center'
+        }}
+      >
+        <Text style={{ color: 'rgba(255,255,255,0.5)' }}>
+          © 2025 Movix. All rights reserved. Made with ❤️ for movie lovers.
+        </Text>
+      </div>
+    </AntFooter>
+  );
+};
+
+export default Footer;
+```
+
+### src\components\layout\Navbar.jsx
+```jsx
+import React, { useState } from 'react';
+import { Layout, Menu, Input } from 'antd';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { HomeOutlined, VideoCameraOutlined, SearchOutlined } from '@ant-design/icons';
+import { ROUTES } from '../../routes';
+
+const { Header } = Layout;
+const { Search } = Input;
+
+const Navbar = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [searchQuery, setSearchQuery] = useState('');
+
+  // Menu items
+  const menuItems = [
+    {
+      key: 'home',
+      icon: <HomeOutlined />,
+      label: 'Trang chủ',
+      onClick: () => navigate(ROUTES.HOME)
+    },
+    {
+      key: 'movies',
+      icon: <VideoCameraOutlined />,
+      label: 'Phim',
+      onClick: () => navigate(ROUTES.MOVIES)
+    }
+  ];
+
+  // Xác định current menu key dựa trên location
+  const getCurrentKey = () => {
+    if (location.pathname === ROUTES.HOME) return 'home';
+    if (location.pathname.includes('/movies')) return 'movies';
+    return 'home';
+  };
+
+  // Xử lý tìm kiếm
+  const handleSearch = (value) => {
+    if (value.trim()) {
+      navigate(`${ROUTES.MOVIES}?search=${encodeURIComponent(value.trim())}`);
+    }
+  };
+
+  return (
+    <Header
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        background: '#001529',
+        padding: '0 20px',
+        position: 'sticky',
+        top: 0,
+        zIndex: 100,
+        boxShadow: '0 2px 8px rgba(0,0,0,0.15)'
+      }}
+    >
+      {/* Logo */}
+      <div
+        style={{
+          color: 'white',
+          fontSize: '24px',
+          fontWeight: 'bold',
+          marginRight: '40px',
+          cursor: 'pointer'
+        }}
+        onClick={() => navigate(ROUTES.HOME)}
+      >
+        🎬 MOVIX
+      </div>
+
+      {/* Menu */}
+      <Menu
+        theme="dark"
+        mode="horizontal"
+        selectedKeys={[getCurrentKey()]}
+        items={menuItems}
+        style={{ 
+          flex: 1, 
+          minWidth: 0,
+          background: 'transparent',
+          borderBottom: 'none'
+        }}
+      />
+
+      {/* Search */}
+      <Search
+        placeholder="Tìm kiếm phim..."
+        allowClear
+        enterButton={<SearchOutlined />}
+        size="middle"
+        style={{ width: 300 }}
+        onSearch={handleSearch}
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
+      />
+    </Header>
+  );
+};
+
+export default Navbar;
+```
+
+### src\components\MovieCard\MovieCard.jsx
+```jsx
+import React from 'react';
+import { Card, Tag, Typography, Rate, Button } from 'antd';
+import { ClockCircleOutlined, CalendarOutlined, PlayCircleOutlined } from '@ant-design/icons';
+import { useNavigate } from 'react-router-dom';
+import { createPath, ROUTES } from '../../routes';
+import './style.css';
+
+const { Meta } = Card;
+const { Text, Title } = Typography;
+
+const MovieCard = ({ movie, showActions = true }) => {
+  const navigate = useNavigate();
+
+  // Xử lý click vào card
+  const handleCardClick = () => {
+    navigate(createPath(ROUTES.MOVIE_DETAIL, { id: movie.id }));
+  };
+
+  // Xử lý click nút đặt vé
+  const handleBookNow = (e) => {
+    e.stopPropagation(); // Ngăn event bubbling
+    navigate(createPath(ROUTES.MOVIE_DETAIL, { id: movie.id }));
+  };
+
+  // Format ngày tháng
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('vi-VN');
+  };
+
+  // SỬA LỖI: Tạo function xử lý ảnh poster đúng cách
+  const getImageSrc = (posterUrl) => {
+    // Nếu có posterUrl và là URL hợp lệ, sử dụng nó
+    if (posterUrl && (posterUrl.startsWith('http') || posterUrl.startsWith('https'))) {
+      return posterUrl;
+    }
+    // Nếu không có hoặc là đường dẫn local, tạo placeholder
+    return `https://via.placeholder.com/300x450/1890ff/ffffff?text=${encodeURIComponent(movie.title)}`;
+  };
+
+  const actions = showActions ? [
+    <Button 
+      type="primary" 
+      icon={<PlayCircleOutlined />}
+      onClick={handleBookNow}
+      size="small"
+    >
+      Đặt vé
+    </Button>
+  ] : [];
+
+  return (
+    <Card
+      hoverable
+      className="movie-card"
+      cover={
+        <div className="movie-card-cover">
+          <img
+            alt={movie.title}
+            src={getImageSrc(movie.posterUrl)}
+            style={{ 
+              width: '100%', 
+              height: 300, 
+              objectFit: 'cover' 
+            }}
+            onError={(e) => {
+              // SỬA LỖI: Fallback khi ảnh lỗi
+              e.target.src = `https://via.placeholder.com/300x450/cccccc/666666?text=${encodeURIComponent(movie.title)}`;
+            }}
+          />
+          {/* Status badge */}
+          <div className="movie-status-badge">
+            <Tag color={movie.status === 'now-showing' ? 'green' : 'blue'}>
+              {movie.status === 'now-showing' ? 'Đang chiếu' : 'Sắp chiếu'}
+            </Tag>
+          </div>
+          {/* Rating */}
+          <div className="movie-rating">
+            <Rate 
+              disabled 
+              defaultValue={Math.round(movie.rating / 2)} 
+              style={{ fontSize: '12px', color: '#ffd700' }}
+            />
+            <Text style={{ color: 'white', marginLeft: '8px', fontSize: '12px' }}>
+              {movie.rating}/10
+            </Text>
+          </div>
+        </div>
+      }
+      actions={actions}
+      onClick={handleCardClick}
+    >
+      <Meta
+        title={
+          <Title level={5} ellipsis={{ rows: 2 }} style={{ margin: 0, minHeight: '48px' }}>
+            {movie.title}
+          </Title>
+        }
+        description={
+          <div className="movie-card-info">
+            {/* Thể loại */}
+            <div style={{ marginBottom: '8px' }}>
+              {movie.genre.map((g, index) => (
+                <Tag key={index} size="small" color="blue">
+                  {g}
+                </Tag>
+              ))}
+            </div>
+            
+            {/* Thời lượng */}
+            <div style={{ marginBottom: '4px' }}>
+              <ClockCircleOutlined style={{ marginRight: '4px', color: '#666' }} />
+              <Text type="secondary" style={{ fontSize: '12px' }}>
+                {movie.duration} phút
+              </Text>
+            </div>
+            
+            {/* Ngày khởi chiếu */}
+            <div style={{ marginBottom: '8px' }}>
+              <CalendarOutlined style={{ marginRight: '4px', color: '#666' }} />
+              <Text type="secondary" style={{ fontSize: '12px' }}>
+                {formatDate(movie.releaseDate)}
+              </Text>
+            </div>
+            
+            {/* Mô tả ngắn */}
+            <Text 
+              type="secondary" 
+              ellipsis={{ rows: 2 }}
+              style={{ fontSize: '12px', lineHeight: '1.4' }}
+            >
+              {movie.description}
+            </Text>
+          </div>
+        }
+      />
+    </Card>
+  );
+};
+
+export default MovieCard;
+```
+
+### src\components\SeatSelector\SeatSelector.jsx
+```jsx
+import React, { useState, useEffect } from 'react';
+import { Typography, Space, Alert } from 'antd';
+import './style.css';
+
+const { Text } = Typography;
+
+const SeatSelector = ({ showtimeId, selectedTime, onSeatChange, bookedSeats = [] }) => {
+  const [selectedSeats, setSelectedSeats] = useState([]);
+  const SEAT_PRICE = 90000; // Giá vé: 90,000 VND
+  
+  // Tạo lưới ghế 10x10 (A-J, 1-10)
+  const rows = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
+  const seatsPerRow = 10;
+
+  // SỬA LỖI: Xử lý click ghế
+  const handleSeatClick = (seatId) => {
+    // Không cho phép chọn ghế đã được đặt
+    if (bookedSeats.includes(seatId)) {
+      return;
+    }
+
+    let newSelectedSeats;
+    if (selectedSeats.includes(seatId)) {
+      // Bỏ chọn ghế
+      newSelectedSeats = selectedSeats.filter(seat => seat !== seatId);
+    } else {
+      // Chọn ghế (giới hạn tối đa 6 ghế)
+      if (selectedSeats.length >= 6) {
+        alert('Bạn chỉ có thể chọn tối đa 6 ghế');
+        return;
+      }
+      newSelectedSeats = [...selectedSeats, seatId];
+    }
+
+    setSelectedSeats(newSelectedSeats);
+    
+    // SỬA LỖI: Callback to parent component
+    if (onSeatChange && typeof onSeatChange === 'function') {
+      onSeatChange({
+        seats: newSelectedSeats,
+        totalPrice: newSelectedSeats.length * SEAT_PRICE
+      });
+    }
+  };
+
+  // Xác định trạng thái ghế
+  const getSeatStatus = (seatId) => {
+    if (bookedSeats.includes(seatId)) return 'booked';
+    if (selectedSeats.includes(seatId)) return 'selected';
+    return 'available';
+  };
+
+  // Xác định CSS class cho ghế
+  const getSeatClass = (seatId) => {
+    const status = getSeatStatus(seatId);
+    const row = seatId.charAt(0);
+    
+    let classes = 'seat';
+    
+    // Thêm class theo trạng thái
+    classes += ` seat-${status}`;
+    
+    // Thêm class cho ghế VIP (hàng G, H, I)
+    if (['G', 'H', 'I'].includes(row)) {
+      classes += ' seat-vip';
+    }
+
+    return classes;
+  };
+
+  // Format số tiền
+  const formatPrice = (price) => {
+    return new Intl.NumberFormat('vi-VN', {
+      style: 'currency',
+      currency: 'VND'
+    }).format(price);
+  };
+
+  // SỬA LỖI: Reset selected seats khi thay đổi showtime - loại bỏ onSeatChange khỏi dependency
+  useEffect(() => {
+    setSelectedSeats([]);
+    if (onSeatChange && typeof onSeatChange === 'function') {
+      onSeatChange({
+        seats: [],
+        totalPrice: 0
+      });
+    }
+  }, [showtimeId, selectedTime]);
+
+  return (
+    <div className="seat-selector">
+      {/* Màn hình */}
+      <div className="screen">
+        <div className="screen-text">MÀN HÌNH</div>
+      </div>
+
+      {/* Lưới ghế */}
+      <div className="seats-container">
+        {rows.map(row => (
+          <div key={row} className="seat-row">
+            <div className="row-label">{row}</div>
+            <div className="seats">
+              {Array.from({ length: seatsPerRow }, (_, i) => {
+                const seatId = `${row}${i + 1}`;
+                const isVipRow = ['G', 'H', 'I'].includes(row);
+                
+                return (
+                  <div
+                    key={seatId}
+                    className={getSeatClass(seatId)}
+                    onClick={() => handleSeatClick(seatId)}
+                    title={`Ghế ${seatId}${isVipRow ? ' (VIP)' : ''}`}
+                    style={{ cursor: bookedSeats.includes(seatId) ? 'not-allowed' : 'pointer' }}
+                  >
+                    <span className="seat-number">{i + 1}</span>
+                  </div>
+                );
+              })}
+            </div>
+            <div className="row-label">{row}</div>
+          </div>
+        ))}
+      </div>
+
+      {/* Chú thích */}
+      <div className="legend">
+        <Space size="large" wrap>
+          <Space>
+            <div className="seat seat-available legend-seat"></div>
+            <Text>Ghế trống</Text>
+          </Space>
+          <Space>
+            <div className="seat seat-selected legend-seat"></div>
+            <Text>Ghế đang chọn</Text>
+          </Space>
+          <Space>
+            <div className="seat seat-booked legend-seat"></div>
+            <Text>Ghế đã đặt</Text>
+          </Space>
+          <Space>
+            <div className="seat seat-available seat-vip legend-seat"></div>
+            <Text>Ghế VIP</Text>
+          </Space>
+        </Space>
+      </div>
+
+      {/* Thông tin đặt chỗ */}
+      {selectedSeats.length > 0 && (
+        <div className="booking-info">
+          <Alert
+            message="Thông tin đặt ghế"
+            description={
+              <div>
+                <Text strong>Ghế đã chọn: </Text>
+                <Text>{selectedSeats.sort().join(', ')}</Text>
+                <br />
+                <Text strong>Số lượng: </Text>
+                <Text>{selectedSeats.length} ghế</Text>
+                <br />
+                <Text strong>Tổng tiền: </Text>
+                <Text style={{ fontSize: '16px', color: '#f5222d' }}>
+                  {formatPrice(selectedSeats.length * SEAT_PRICE)}
+                </Text>
+              </div>
+            }
+            type="info"
+            showIcon
+            style={{ marginTop: '20px' }}
+          />
+        </div>
+      )}
+
+      {/* Lưu ý */}
+      <div style={{ marginTop: '16px', textAlign: 'center' }}>
+        <Text type="secondary" style={{ fontSize: '12px' }}>
+          * Bạn có thể chọn tối đa 6 ghế cho một lần đặt vé
+          <br />
+          * Ghế VIP (hàng G, H, I) có giá {formatPrice(SEAT_PRICE)}
+          <br />
+          * Ghế thường có giá {formatPrice(SEAT_PRICE)}
+        </Text>
+      </div>
+    </div>
+  );
+};
+
+export default SeatSelector;
+```
+
+### src\configs\geminiConfig.js
+```js
+import { GoogleGenerativeAI } from '@google/generative-ai';
+
+// Cấu hình API key cho Google Gemini
+const GEMINI_API_KEY = 'AIzaSyDa3VH3i1MZ6xJCF9j8iHzTlPf0GjgVeUw';
+
+// Khởi tạo Google Generative AI
+const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
+
+// Lấy model Gemini Pro
+export const getGeminiModel = () => {
+  return genAI.getGenerativeModel({ model: 'gemini-pro' });
+};
+
+export default genAI;
+```
+
+### src\hooks\useMovies.js
+```js
+import { useState, useEffect } from 'react';
+import { movieApi, showtimeApi } from '../api/movieApi';
+
+// Custom hook để lấy dữ liệu phim
+export const useMovies = () => {
+  const [movies, setMovies] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  // Hàm fetch tất cả phim
+  const fetchMovies = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const response = await movieApi.getAllMovies();
+      setMovies(response.data);
+    } catch (err) {
+      setError('Không thể tải danh sách phim');
+      console.error('Error fetching movies:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchMovies();
+  }, []);
+
+  return {
+    movies,
+    loading,
+    error,
+    refetch: fetchMovies
+  };
+};
+
+// Custom hook để lấy phim theo status
+export const useMoviesByStatus = (status) => {
+  const [movies, setMovies] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const fetchMoviesByStatus = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const response = await movieApi.getMoviesByStatus(status);
+      setMovies(response.data);
+    } catch (err) {
+      setError('Không thể tải danh sách phim');
+      console.error('Error fetching movies by status:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (status) {
+      fetchMoviesByStatus();
+    }
+  }, [status]);
+
+  return {
+    movies,
+    loading,
+    error,
+    refetch: fetchMoviesByStatus
+  };
+};
+
+// Custom hook để lấy chi tiết phim
+export const useMovieDetail = (movieId) => {
+  const [movie, setMovie] = useState(null);
+  const [showtimes, setShowtimes] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const fetchMovieDetail = async () => {
+    if (!movieId) return;
+
+    try {
+      setLoading(true);
+      setError(null);
+
+      // Fetch movie detail và showtimes song song
+      const [movieResponse, showtimesResponse] = await Promise.all([
+        movieApi.getMovieById(movieId),
+        showtimeApi.getShowtimesByMovieId(movieId)
+      ]);
+
+      setMovie(movieResponse.data);
+      setShowtimes(showtimesResponse.data);
+    } catch (err) {
+      setError('Không thể tải thông tin phim');
+      console.error('Error fetching movie detail:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchMovieDetail();
+  }, [movieId]);
+
+  return {
+    movie,
+    showtimes,
+    loading,
+    error,
+    refetch: fetchMovieDetail
+  };
+};
+
+// Custom hook để tìm kiếm phim
+export const useMovieSearch = () => {
+  const [results, setResults] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const searchMovies = async (query) => {
+    if (!query.trim()) {
+      setResults([]);
+      return;
+    }
+
+    try {
+      setLoading(true);
+      setError(null);
+      const response = await movieApi.searchMovies(query);
+      setResults(response.data);
+    } catch (err) {
+      setError('Không thể tìm kiếm phim');
+      console.error('Error searching movies:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const clearResults = () => {
+    setResults([]);
+    setError(null);
+  };
+
+  return {
+    results,
+    loading,
+    error,
+    searchMovies,
+    clearResults
+  };
+};
+```
+
+### src\pages\BookingPage\BookingPage.jsx
+```jsx
+import React, { useState, useEffect } from 'react';
+import { 
+  Layout, Row, Col, Typography, Card, Button, Steps, Alert, 
+  Spin, Space, Tag, Divider 
+} from 'antd';
+import { 
+  CalendarOutlined, ClockCircleOutlined, EnvironmentOutlined,
+  UserOutlined, CreditCardOutlined
+} from '@ant-design/icons';
+import { useParams, useNavigate } from 'react-router-dom';
+import SeatSelector from '../../components/SeatSelector/SeatSelector';
+import { showtimeApi, movieApi, seatApi } from '../../api/movieApi';
+import { ROUTES } from '../../routes';
+
+const { Content } = Layout;
+const { Title, Text } = Typography;
+
+const BookingPage = () => {
+  const { showtimeId } = useParams();
+  const navigate = useNavigate();
+
+  // States
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [showtime, setShowtime] = useState(null);
+  const [movie, setMovie] = useState(null);
+  const [selectedSeats, setSelectedSeats] = useState([]);
+  const [totalPrice, setTotalPrice] = useState(0);
+  const [bookedSeats, setBookedSeats] = useState([]);
+  const [currentStep, setCurrentStep] = useState(0);
+
+  // Load dữ liệu showtime và movie
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        // Lấy thông tin showtime
+        const showtimeResponse = await showtimeApi.getShowtimeById(showtimeId);
+        const showtimeData = showtimeResponse.data;
+        setShowtime(showtimeData);
+
+        // Lấy thông tin movie
+        const movieResponse = await movieApi.getMovieById(showtimeData.movieId);
+        setMovie(movieResponse.data);
+
+        // Lấy trạng thái ghế đã đặt
+        const seatResponse = await seatApi.getSeatStatus();
+        const seatData = seatResponse.data;
+        const showtimeBookedSeats = seatData[showtimeId] || {};
+        
+        // Lấy ghế đã đặt cho tất cả các suất chiếu của showtime này
+        const allBookedSeats = Object.values(showtimeBookedSeats).flat();
+        setBookedSeats(allBookedSeats);
+
+      } catch (err) {
+        setError('Không thể tải thông tin đặt vé');
+        console.error('Error fetching booking data:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [showtimeId]);
+
+  // Xử lý thay đổi ghế
+  const handleSeatChange = ({ seats, totalPrice }) => {
+    setSelectedSeats(seats);
+    setTotalPrice(totalPrice);
+  };
+
+  // Tiến tới bước tiếp theo
+  const handleNextStep = () => {
+    if (selectedSeats.length === 0) {
+      return;
+    }
+    setCurrentStep(1);
+  };
+
+  // Quay lại bước trước
+  const handlePrevStep = () => {
+    setCurrentStep(0);
+  };
+
+  // Tiến tới thanh toán
+  const handleProceedToPayment = () => {
+    // Lưu thông tin booking vào sessionStorage để sử dụng ở trang payment
+    const bookingInfo = {
+      showtimeId,
+      movie: movie,
+      showtime: showtime,
+      selectedSeats,
+      totalPrice
+    };
+    
+    sessionStorage.setItem('bookingInfo', JSON.stringify(bookingInfo));
+    navigate(ROUTES.PAYMENT);
+  };
+
+  // Format giá tiền
+  const formatPrice = (price) => {
+    return new Intl.NumberFormat('vi-VN', {
+      style: 'currency',
+      currency: 'VND'
+    }).format(price);
+  };
+
+  // Format ngày giờ
+  const formatDateTime = (date) => {
+    return new Date(date).toLocaleDateString('vi-VN', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+  };
+
+  if (loading) {
+    return (
+      <Layout>
+        <Content style={{ padding: '50px 5%' }}>
+          <div style={{ textAlign: 'center', padding: '100px' }}>
+            <Spin size="large" />
+            <p style={{ marginTop: '20px', color: '#666' }}>Đang tải thông tin đặt vé...</p>
+          </div>
+        </Content>
+      </Layout>
+    );
+  }
+
+  if (error || !showtime || !movie) {
+    return (
+      <Layout>
+        <Content style={{ padding: '50px 5%' }}>
+          <Alert
+            message="Không thể tải thông tin đặt vé"
+            description={error || "Suất chiếu không tồn tại."}
+            type="error"
+            showIcon
+            action={
+              <Button type="primary" onClick={() => navigate(-1)}>
+                Quay lại
+              </Button>
+            }
+          />
+        </Content>
+      </Layout>
+    );
+  }
+
+  const steps = [
+    {
+      title: 'Chọn ghế',
+      icon: <UserOutlined />
+    },
+    {
+      title: 'Xác nhận',
+      icon: <CreditCardOutlined />
+    }
+  ];
+
+  return (
+    <Layout>
+      <Content style={{ padding: '20px 5%', background: '#f5f5f5' }}>
+        {/* Header */}
+        <Card style={{ marginBottom: '20px' }}>
+          <Title level={2} style={{ margin: 0, textAlign: 'center' }}>
+            Đặt vé xem phim
+          </Title>
+        </Card>
+
+        {/* Steps */}
+        <Card style={{ marginBottom: '20px' }}>
+          <Steps current={currentStep} items={steps} />
+        </Card>
+
+        <Row gutter={[20, 20]}>
+          {/* Main Content */}
+          <Col xs={24} lg={16}>
+            <Card>
+              {currentStep === 0 ? (
+                <>
+                  <Title level={3} style={{ marginBottom: '20px' }}>
+                    Chọn ghế ngồi
+                  </Title>
+                  <SeatSelector
+                    showtimeId={showtimeId}
+                    selectedTime={showtime.times[0]} // Sử dụng thời gian đầu tiên
+                    onSeatChange={handleSeatChange}
+                    bookedSeats={bookedSeats}
+                  />
+                  <div style={{ textAlign: 'center', marginTop: '20px' }}>
+                    <Button
+                      type="primary"
+                      size="large"
+                      disabled={selectedSeats.length === 0}
+                      onClick={handleNextStep}
+                    >
+                      Tiếp tục ({selectedSeats.length} ghế)
+                    </Button>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <Title level={3} style={{ marginBottom: '20px' }}>
+                    Xác nhận thông tin đặt vé
+                  </Title>
+                  
+                  {/* Thông tin phim */}
+                  <div style={{ marginBottom: '20px' }}>
+                    <Row gutter={[16, 16]}>
+                      <Col xs={24} sm={8}>
+                        <img
+                          src={movie.posterUrl}
+                          alt={movie.title}
+                          style={{
+                            width: '100%',
+                            maxWidth: '200px',
+                            borderRadius: '8px'
+                          }}
+                        />
+                      </Col>
+                      <Col xs={24} sm={16}>
+                        <Title level={4}>{movie.title}</Title>
+                        <Space direction="vertical" size="small">
+                          <Space>
+                            <EnvironmentOutlined />
+                            <Text>{showtime.cinema}</Text>
+                          </Space>
+                          <Space>
+                            <CalendarOutlined />
+                            <Text>{formatDateTime(showtime.date)}</Text>
+                          </Space>
+                          <Space>
+                            <ClockCircleOutlined />
+                            <Text>Suất chiếu: {showtime.times.join(', ')}</Text>
+                          </Space>
+                          <div>
+                            <Text strong>Thể loại: </Text>
+                            {movie.genre.map((g, index) => (
+                              <Tag key={index} color="blue">{g}</Tag>
+                            ))}
+                          </div>
+                          <Space>
+                            <Text strong>Thời lượng:</Text>
+                            <Text>{movie.duration} phút</Text>
+                          </Space>
+                          <Space>
+                            <Text strong>Đánh giá:</Text>
+                            <Text>⭐ {movie.rating}/10</Text>
+                          </Space>
+                        </Space>
+                      </Col>
+                    </Row>
+                  </div>
+
+                  <Divider />
+
+                  {/* Thông tin ghế và giá */}
+                  <div style={{ marginBottom: '20px' }}>
+                    <Title level={5}>Chi tiết đặt vé</Title>
+                    <Row gutter={[16, 16]}>
+                      <Col span={12}>
+                        <Text strong>Ghế đã chọn:</Text>
+                        <br />
+                        <Text style={{ fontSize: '16px', color: '#52c41a' }}>
+                          {selectedSeats.sort().join(', ')}
+                        </Text>
+                      </Col>
+                      <Col span={12}>
+                        <Text strong>Số lượng vé:</Text>
+                        <br />
+                        <Text style={{ fontSize: '16px' }}>
+                          {selectedSeats.length} vé
+                        </Text>
+                      </Col>
+                      <Col span={24}>
+                        <Alert
+                          message="Tổng tiền thanh toán"
+                          description={
+                            <div>
+                              <div style={{ marginBottom: '8px' }}>
+                                <Text>Vé xem phim: {selectedSeats.length} x {formatPrice(90000)} = {formatPrice(totalPrice)}</Text>
+                              </div>
+                              <div>
+                                <Text strong style={{ fontSize: '18px', color: '#f5222d' }}>
+                                  Tổng cộng: {formatPrice(totalPrice)}
+                                </Text>
+                              </div>
+                            </div>
+                          }
+                          type="info"
+                          showIcon
+                        />
+                      </Col>
+                    </Row>
+                  </div>
+
+                  {/* Action buttons */}
+                  <div style={{ textAlign: 'center' }}>
+                    <Space size="middle">
+                      <Button size="large" onClick={handlePrevStep}>
+                        Quay lại chọn ghế
+                      </Button>
+                      <Button
+                        type="primary"
+                        size="large"
+                        onClick={handleProceedToPayment}
+                      >
+                        Tiến hành thanh toán
+                      </Button>
+                    </Space>
+                  </div>
+                </>
+              )}
+            </Card>
+          </Col>
+
+          {/* Sidebar */}
+          <Col xs={24} lg={8}>
+            {/* Thông tin phim */}
+            <Card 
+              title="Thông tin phim"
+              style={{ marginBottom: '20px' }}
+              cover={
+                <img
+                  src={movie.posterUrl}
+                  alt={movie.title}
+                  style={{ height: '700px', objectFit: 'cover' }}
+                />
+              }
+            >
+              <Title level={4} ellipsis>{movie.title}</Title>
+              <Space direction="vertical" size="small" style={{ width: '100%' }}>
+                <div>
+                  {movie.genre.map((g, index) => (
+                    <Tag key={index} color="blue">{g}</Tag>
+                  ))}
+                </div>
+                <Space>
+                  <ClockCircleOutlined />
+                  <Text>{movie.duration} phút</Text>
+                </Space>
+                <Space>
+                  <Text>⭐ {movie.rating}/10</Text>
+                </Space>
+              </Space>
+            </Card>
+
+            {/* Thông tin suất chiếu */}
+            <Card title="Thông tin suất chiếu">
+              <Space direction="vertical" size="middle" style={{ width: '100%' }}>
+                <div>
+                  <Text strong>Rạp chiếu phim:</Text>
+                  <br />
+                  <Text>{showtime.cinema}</Text>
+                </div>
+                <div>
+                  <Text strong>Ngày chiếu:</Text>
+                  <br />
+                  <Text>{formatDateTime(showtime.date)}</Text>
+                </div>
+                <div>
+                  <Text strong>Giờ chiếu:</Text>
+                  <br />
+                  <Space>
+                    {showtime.times.map((time, index) => (
+                      <Tag key={index} color="green">{time}</Tag>
+                    ))}
+                  </Space>
+                </div>
+              </Space>
+            </Card>
+
+            {/* Thông tin đặt vé */}
+            {selectedSeats.length > 0 && (
+              <Card title="Chi tiết đặt vé" style={{ marginTop: '20px' }}>
+                <Space direction="vertical" size="middle" style={{ width: '100%' }}>
+                  <div>
+                    <Text strong>Ghế đã chọn:</Text>
+                    <br />
+                    <Text style={{ color: '#52c41a' }}>
+                      {selectedSeats.sort().join(', ')}
+                    </Text>
+                  </div>
+                  <div>
+                    <Text strong>Số lượng:</Text>
+                    <br />
+                    <Text>{selectedSeats.length} vé</Text>
+                  </div>
+                  <Divider style={{ margin: '12px 0' }} />
+                  <div>
+                    <Text strong>Tổng tiền:</Text>
+                    <br />
+                    <Text style={{ fontSize: '18px', color: '#f5222d' }}>
+                      {formatPrice(totalPrice)}
+                    </Text>
+                  </div>
+                </Space>
+              </Card>
+            )}
+
+            {/* Lưu ý */}
+            <Alert
+              message="Lưu ý"
+              description={
+                <ul style={{ margin: 0, paddingLeft: '16px' }}>
+                  <li>Vé đã mua không được hoàn trả</li>
+                  <li>Vui lòng có mặt trước giờ chiếu 15 phút</li>
+                  <li>Mang theo giấy tờ tùy thân khi xem phim</li>
+                  <li>Không mang thức ăn và đồ uống từ bên ngoài</li>
+                </ul>
+              }
+              type="warning"
+              showIcon
+              style={{ marginTop: '20px' }}
+            />
+          </Col>
+        </Row>
+      </Content>
+    </Layout>
+  );
+};
+
+export default BookingPage;
+```
+
+### src\pages\HomePage\HomePage.jsx
+```jsx
+import React from 'react';
+import { Layout, Row, Col, Typography, Carousel, Spin, Alert, Button } from 'antd';
+import { PlayCircleOutlined, RightOutlined } from '@ant-design/icons';
+import { useNavigate } from 'react-router-dom';
+import MovieCard from '../../components/MovieCard/MovieCard';
+import { useMovies, useMoviesByStatus } from '../../hooks/useMovies';
+import { ROUTES } from '../../routes';
+
+const { Content } = Layout;
+const { Title, Paragraph } = Typography;
+
+const HomePage = () => {
+  const navigate = useNavigate();
+  const { movies: allMovies, loading: allLoading } = useMovies();
+  const { movies: nowShowingMovies, loading: nowShowingLoading } = useMoviesByStatus('now-showing');
+  const { movies: comingSoonMovies, loading: comingSoonLoading } = useMoviesByStatus('coming-soon');
+
+  // Lấy phim nổi bật cho carousel (top rated movies)
+  const featuredMovies = allMovies
+    .filter(movie => movie.rating >= 8.5)
+    .slice(0, 3);
+
+  // Component Banner Slide
+  const BannerSlide = ({ movie }) => (
+    <div style={{ position: 'relative', height: '500px', overflow: 'hidden' }}>
+      <div
+        style={{
+          backgroundImage: `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url(${movie.posterUrl})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          height: '100%',
+          display: 'flex',
+          alignItems: 'center',
+          padding: '0 5%'
+        }}
+      >
+        <Row gutter={[32, 32]} align="middle" style={{ width: '100%' }}>
+          <Col xs={24} md={12}>
+            <div style={{ color: 'white' }}>
+              <Title level={1} style={{ color: 'white', marginBottom: '16px' }}>
+                {movie.title}
+              </Title>
+              <Paragraph 
+                style={{ 
+                  color: 'rgba(255,255,255,0.9)', 
+                  fontSize: '16px', 
+                  marginBottom: '20px' 
+                }}
+              >
+                {movie.description}
+              </Paragraph>
+              <div style={{ marginBottom: '20px' }}>
+                <span style={{ marginRight: '20px' }}>⭐ {movie.rating}/10</span>
+                <span style={{ marginRight: '20px' }}>🕒 {movie.duration} phút</span>
+                <span>{movie.genre.join(', ')}</span>
+              </div>
+              <Button
+                type="primary"
+                size="large"
+                icon={<PlayCircleOutlined />}
+                onClick={() => navigate(`/movies/${movie.id}`)}
+              >
+                Xem chi tiết & Đặt vé
+              </Button>
+            </div>
+          </Col>
+          <Col xs={24} md={12}>
+            <img
+              src={movie.posterUrl}
+              alt={movie.title}
+              style={{
+                width: '100%',
+                maxWidth: '400px',
+                height: 'auto',
+                borderRadius: '8px',
+                boxShadow: '0 8px 24px rgba(0,0,0,0.3)'
+              }}
+            />
+          </Col>
+        </Row>
+      </div>
+    </div>
+  );
+
+  // Component Section
+  const MovieSection = ({ title, movies, loading, viewAllPath }) => (
+    <div style={{ marginBottom: '50px' }}>
+      <div style={{ 
+        display: 'flex', 
+        justifyContent: 'space-between', 
+        alignItems: 'center',
+        marginBottom: '24px'
+      }}>
+        <Title level={2}>{title}</Title>
+        {viewAllPath && (
+          <Button 
+            type="link" 
+            icon={<RightOutlined />}
+            onClick={() => navigate(viewAllPath)}
+          >
+            Xem tất cả
+          </Button>
+        )}
+      </div>
+
+      {loading ? (
+        <div style={{ textAlign: 'center', padding: '50px' }}>
+          <Spin size="large" />
+        </div>
+      ) : movies.length > 0 ? (
+        <Row gutter={[16, 16]}>
+          {movies.slice(0, 4).map(movie => (
+            <Col xs={24} sm={12} md={6} key={movie.id}>
+              <MovieCard movie={movie} />
+            </Col>
+          ))}
+        </Row>
+      ) : (
+        <Alert
+          message="Không có phim nào"
+          description="Hiện tại chưa có phim trong danh mục này."
+          type="info"
+          showIcon
+        />
+      )}
+    </div>
+  );
+
+  return (
+    <Layout>
+      <Content>
+        {/* Hero Banner Carousel */}
+        <section style={{ marginBottom: '50px' }}>
+          {allLoading ? (
+            <div style={{ height: '500px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <Spin size="large" />
+            </div>
+          ) : featuredMovies.length > 0 ? (
+            <Carousel 
+              autoplay 
+              autoplaySpeed={5000}
+              effect="fade"
+              dots={{ className: 'carousel-dots' }}
+            >
+              {featuredMovies.map(movie => (
+                <BannerSlide key={movie.id} movie={movie} />
+              ))}
+            </Carousel>
+          ) : (
+            <div style={{
+              height: '500px',
+              background: 'linear-gradient(135deg, #1890ff, #096dd9)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: 'white'
+            }}>
+              <div style={{ textAlign: 'center' }}>
+                <Title level={1} style={{ color: 'white' }}>
+                  🎬 Chào mừng đến với MOVIX
+                </Title>
+                <Paragraph style={{ fontSize: '18px', color: 'rgba(255,255,255,0.9)' }}>
+                  Trải nghiệm điện ảnh tuyệt vời với công nghệ AI hiện đại
+                </Paragraph>
+              </div>
+            </div>
+          )}
+        </section>
+
+        {/* Main content */}
+        <div style={{ padding: '0 5%' }}>
+          {/* Phim đang chiếu */}
+          <MovieSection
+            title="🎬 Phim Đang Chiếu"
+            movies={nowShowingMovies}
+            loading={nowShowingLoading}
+            viewAllPath={`${ROUTES.MOVIES}?status=now-showing`}
+          />
+
+          {/* Phim sắp chiếu */}
+          <MovieSection
+            title="🔜 Phim Sắp Chiếu"
+            movies={comingSoonMovies}
+            loading={comingSoonLoading}
+            viewAllPath={`${ROUTES.MOVIES}?status=coming-soon`}
+          />
+        </div>
+      </Content>
+
+      {/* Custom styles for carousel */}
+      <style jsx>{`
+        .carousel-dots {
+          bottom: 20px !important;
+        }
+        .carousel-dots li button {
+          background: rgba(255,255,255,0.5) !important;
+          border-radius: 50% !important;
+          width: 12px !important;
+          height: 12px !important;
+        }
+        .carousel-dots li.slick-active button {
+          background: white !important;
+        }
+      `}</style>
+    </Layout>
+  );
+};
+
+export default HomePage;
+```
+
+### src\pages\MovieDetailPage\MovieDetailPage.jsx
+```jsx
+import React from 'react';
+import { 
+  Layout, Row, Col, Typography, Tag, Rate, Button, Spin, Alert, 
+  Card, Divider, Space, Modal 
+} from 'antd';
+import { 
+  PlayCircleOutlined, ClockCircleOutlined, CalendarOutlined, 
+  UserOutlined, VideoCameraOutlined, StarOutlined
+} from '@ant-design/icons';
+import { useParams, useNavigate } from 'react-router-dom';
+import { useMovieDetail } from '../../hooks/useMovies';
+import { createPath, ROUTES } from '../../routes';
+
+const { Content } = Layout;
+const { Title, Paragraph, Text } = Typography;
+
+const MovieDetailPage = () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const { movie, showtimes, loading, error } = useMovieDetail(id);
+
+  // Xử lý đặt vé
+  const handleBookTicket = (showtimeId) => {
+    navigate(createPath(ROUTES.BOOKING, { showtimeId }));
+  };
+
+  // Xử lý xem trailer (giả lập)
+  const handleWatchTrailer = () => {
+    Modal.info({
+      title: 'Trailer',
+      content: 'Chức năng xem trailer sẽ được triển khai trong phiên bản tiếp theo.',
+      okText: 'Đóng'
+    });
+  };
+
+  // Format ngày tháng
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('vi-VN', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+  };
+
+  // Nhóm showtimes theo rạp
+  const groupShowtimesByCinema = (showtimes) => {
+    return showtimes.reduce((acc, showtime) => {
+      const cinema = showtime.cinema;
+      if (!acc[cinema]) {
+        acc[cinema] = [];
+      }
+      acc[cinema].push(showtime);
+      return acc;
+    }, {});
+  };
+
+  if (loading) {
+    return (
+      <Layout>
+        <Content style={{ padding: '50px 5%' }}>
+          <div style={{ textAlign: 'center', padding: '100px' }}>
+            <Spin size="large" />
+            <p style={{ marginTop: '20px', color: '#666' }}>Đang tải thông tin phim...</p>
+          </div>
+        </Content>
+      </Layout>
+    );
+  }
+
+  if (error || !movie) {
+    return (
+      <Layout>
+        <Content style={{ padding: '50px 5%' }}>
+          <Alert
+            message="Không tìm thấy phim"
+            description="Phim bạn đang tìm kiếm không tồn tại hoặc đã bị xóa."
+            type="error"
+            showIcon
+            action={
+              <Button type="primary" onClick={() => navigate(ROUTES.MOVIES)}>
+                Quay lại danh sách phim
+              </Button>
+            }
+          />
+        </Content>
+      </Layout>
+    );
+  }
+
+  const groupedShowtimes = groupShowtimesByCinema(showtimes);
+
+  return (
+    <Layout>
+      <Content>
+        {/* Hero Section */}
+        <div
+          style={{
+            backgroundImage: `linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url(${movie.posterUrl})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            minHeight: '400px',
+            display: 'flex',
+            alignItems: 'center',
+            color: 'white',
+            padding: '0 5%'
+          }}
+        >
+          <Row gutter={[32, 32]} align="middle" style={{ width: '100%' }}>
+            <Col xs={24} md={8}>
+              <img
+                src={movie.posterUrl}
+                alt={movie.title}
+                style={{
+                  width: '100%',
+                  maxWidth: '350px',
+                  borderRadius: '12px',
+                  boxShadow: '0 8px 24px rgba(0,0,0,0.4)'
+                }}
+              />
+            </Col>
+            <Col xs={24} md={16}>
+              <div>
+                <Title level={1} style={{ color: 'white', marginBottom: '16px' }}>
+                  {movie.title}
+                </Title>
+                
+                <div style={{ marginBottom: '20px' }}>
+                  {movie.genre.map((g, index) => (
+                    <Tag key={index} color="blue" style={{ marginBottom: '8px' }}>
+                      {g}
+                    </Tag>
+                  ))}
+                  <Tag color={movie.status === 'now-showing' ? 'green' : 'orange'}>
+                    {movie.status === 'now-showing' ? 'Đang chiếu' : 'Sắp chiếu'}
+                  </Tag>
+                </div>
+
+                <div style={{ marginBottom: '20px' }}>
+                  <Rate 
+                    disabled 
+                    value={Math.round(movie.rating / 2)} 
+                    style={{ color: '#ffd700' }}
+                  />
+                  <span style={{ marginLeft: '10px', fontSize: '16px' }}>
+                    {movie.rating}/10
+                  </span>
+                </div>
+
+                <Space size="large" style={{ marginBottom: '20px', flexWrap: 'wrap' }}>
+                  <Space>
+                    <ClockCircleOutlined />
+                    <Text style={{ color: 'white' }}>{movie.duration} phút</Text>
+                  </Space>
+                  <Space>
+                    <CalendarOutlined />
+                    <Text style={{ color: 'white' }}>{formatDate(movie.releaseDate)}</Text>
+                  </Space>
+                  <Space>
+                    <UserOutlined />
+                    <Text style={{ color: 'white' }}>Đạo diễn: {movie.director}</Text>
+                  </Space>
+                </Space>
+
+                <Paragraph style={{ color: 'rgba(255,255,255,0.9)', fontSize: '16px', marginBottom: '24px' }}>
+                  {movie.description}
+                </Paragraph>
+
+                <Space size="middle">
+                  <Button
+                    type="primary"
+                    size="large"
+                    icon={<PlayCircleOutlined />}
+                    onClick={handleWatchTrailer}
+                  >
+                    Xem Trailer
+                  </Button>
+                  {movie.status === 'now-showing' && showtimes.length > 0 && (
+                    <Button
+                      type="primary"
+                      size="large"
+                      style={{ background: '#52c41a', borderColor: '#52c41a' }}
+                      onClick={() => {
+                        const firstShowtime = showtimes[0];
+                        handleBookTicket(firstShowtime.id);
+                      }}
+                    >
+                      Đặt vé ngay
+                    </Button>
+                  )}
+                </Space>
+              </div>
+            </Col>
+          </Row>
+        </div>
+
+        {/* Movie Info Section */}
+        <div style={{ padding: '50px 5%', background: '#fafafa' }}>
+          <Row gutter={[32, 32]}>
+            {/* Chi tiết phim */}
+            <Col xs={24} lg={16}>
+              <Card title="Thông tin chi tiết" style={{ marginBottom: '24px' }}>
+                <Row gutter={[16, 16]}>
+                  <Col span={12}>
+                    <Text strong>Đạo diễn:</Text>
+                    <br />
+                    <Text>{movie.director}</Text>
+                  </Col>
+                  <Col span={12}>
+                    <Text strong>Thời lượng:</Text>
+                    <br />
+                    <Text>{movie.duration} phút</Text>
+                  </Col>
+                  <Col span={12}>
+                    <Text strong>Ngày khởi chiếu:</Text>
+                    <br />
+                    <Text>{formatDate(movie.releaseDate)}</Text>
+                  </Col>
+                  <Col span={12}>
+                    <Text strong>Đánh giá:</Text>
+                    <br />
+                    <Space>
+                      <StarOutlined style={{ color: '#ffd700' }} />
+                      <Text>{movie.rating}/10</Text>
+                    </Space>
+                  </Col>
+                  <Col span={24}>
+                    <Text strong>Diễn viên:</Text>
+                    <br />
+                    <Text>{movie.cast.join(', ')}</Text>
+                  </Col>
+                  <Col span={24}>
+                    <Text strong>Thể loại:</Text>
+                    <br />
+                    <Space>
+                      {movie.genre.map((g, index) => (
+                        <Tag key={index} color="blue">{g}</Tag>
+                      ))}
+                    </Space>
+                  </Col>
+                </Row>
+              </Card>
+
+              {/* Mô tả chi tiết */}
+              <Card title="Nội dung phim">
+                <Paragraph style={{ fontSize: '15px', lineHeight: '1.6' }}>
+                  {movie.description}
+                </Paragraph>
+              </Card>
+            </Col>
+
+            {/* Lịch chiếu */}
+            <Col xs={24} lg={8}>
+              <Card 
+                title="Lịch chiếu hôm nay"
+                extra={<VideoCameraOutlined />}
+              >
+                {showtimes.length === 0 ? (
+                  <Alert
+                    message="Chưa có lịch chiếu"
+                    description="Phim này hiện chưa có lịch chiếu. Vui lòng quay lại sau."
+                    type="info"
+                    showIcon
+                  />
+                ) : (
+                  Object.entries(groupedShowtimes).map(([cinema, times]) => (
+                    <div key={cinema} style={{ marginBottom: '24px' }}>
+                      <Title level={5} style={{ color: '#1890ff', marginBottom: '12px' }}>
+                        🎭 {cinema}
+                      </Title>
+                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                        {times.map((showtime) => 
+                          showtime.times.map((time, timeIndex) => (
+                            <Button
+                              key={`${showtime.id}-${timeIndex}`}
+                              size="small"
+                              onClick={() => handleBookTicket(showtime.id)}
+                              style={{ minWidth: '70px' }}
+                            >
+                              {time}
+                            </Button>
+                          ))
+                        )}
+                      </div>
+                      {cinema !== Object.keys(groupedShowtimes)[Object.keys(groupedShowtimes).length - 1] && (
+                        <Divider style={{ margin: '16px 0' }} />
+                      )}
+                    </div>
+                  ))
+                )}
+              </Card>
+            </Col>
+          </Row>
+        </div>
+      </Content>
+    </Layout>
+  );
+};
+
+export default MovieDetailPage;
+```
+
+### src\pages\MovieListPage\MovieListPage.jsx
+```jsx
+import React, { useState, useEffect } from 'react';
+import { Layout, Row, Col, Typography, Spin, Alert, Select, Input, Space, Card } from 'antd';
+import { SearchOutlined, FilterOutlined } from '@ant-design/icons';
+import { useSearchParams } from 'react-router-dom';
+import MovieCard from '../../components/MovieCard/MovieCard';
+import { useMovies, useMovieSearch } from '../../hooks/useMovies';
+
+const { Content } = Layout;
+const { Title } = Typography;
+const { Option } = Select;
+const { Search } = Input;
+
+const MovieListPage = () => {
+  const [searchParams] = useSearchParams();
+  const [filteredMovies, setFilteredMovies] = useState([]);
+  const [selectedGenre, setSelectedGenre] = useState('all');
+  const [selectedStatus, setSelectedStatus] = useState('all');
+  const [sortBy, setSortBy] = useState('title');
+
+  // Hooks
+  const { movies, loading, error } = useMovies();
+  const { results: searchResults, searchMovies, loading: searchLoading } = useMovieSearch();
+
+  // Lấy query parameters
+  const searchQuery = searchParams.get('search') || '';
+  const statusQuery = searchParams.get('status') || '';
+
+  // Lấy danh sách thể loại unique
+  const genres = ['all', ...new Set(movies.flatMap(movie => movie.genre))];
+
+  // Effect để xử lý search và filter - SỬA LỖI: thêm dependency và logic rõ ràng hơn
+  useEffect(() => {
+    // Nếu có search query, chỉ search một lần
+    if (searchQuery) {
+      searchMovies(searchQuery);
+      return;
+    }
+
+    // Nếu không có search query, filter từ movies
+    let result = movies;
+
+    // Filter theo status từ URL params
+    if (statusQuery && statusQuery !== 'all') {
+      result = result.filter(movie => movie.status === statusQuery);
+      if (selectedStatus !== statusQuery) {
+        setSelectedStatus(statusQuery);
+      }
+    }
+
+    // Filter theo genre
+    if (selectedGenre !== 'all') {
+      result = result.filter(movie => 
+        movie.genre.some(g => g === selectedGenre)
+      );
+    }
+
+    // Filter theo status (dropdown)
+    if (selectedStatus !== 'all' && !statusQuery) {
+      result = result.filter(movie => movie.status === selectedStatus);
+    }
+
+    // Sort
+    result = [...result].sort((a, b) => {
+      switch (sortBy) {
+        case 'title':
+          return a.title.localeCompare(b.title);
+        case 'rating':
+          return b.rating - a.rating;
+        case 'releaseDate':
+          return new Date(b.releaseDate) - new Date(a.releaseDate);
+        case 'duration':
+          return b.duration - a.duration;
+        default:
+          return 0;
+      }
+    });
+
+    setFilteredMovies(result);
+  }, [movies, searchQuery, selectedGenre, selectedStatus, sortBy, statusQuery]);
+
+  // Effect riêng để xử lý search results - SỬA LỖI: tách riêng để tránh conflict
+  useEffect(() => {
+    if (searchQuery && searchResults.length >= 0) {
+      setFilteredMovies(searchResults);
+    }
+  }, [searchResults, searchQuery]);
+
+  // Xử lý local search (không thông qua URL)
+  const handleLocalSearch = (value) => {
+    if (value.trim()) {
+      searchMovies(value);
+    } else {
+      // Reset về movies ban đầu nếu xóa search
+      setFilteredMovies(movies);
+    }
+  };
+
+  const isLoading = loading || searchLoading;
+  const displayMovies = searchQuery ? searchResults : filteredMovies;
+
+  // Get page title based on filters
+  const getPageTitle = () => {
+    if (searchQuery) return `Kết quả tìm kiếm: "${searchQuery}"`;
+    if (statusQuery === 'now-showing') return 'Phim Đang Chiếu';
+    if (statusQuery === 'coming-soon') return 'Phim Sắp Chiếu';
+    if (selectedStatus === 'now-showing') return 'Phim Đang Chiếu';
+    if (selectedStatus === 'coming-soon') return 'Phim Sắp Chiếu';
+    return 'Tất Cả Phim';
+  };
+
+  return (
+    <Layout>
+      <Content style={{ padding: '20px 5%' }}>
+        {/* Page Header */}
+        <div style={{ marginBottom: '30px', textAlign: 'center' }}>
+          <Title level={1}>{getPageTitle()}</Title>
+        </div>
+
+        {/* Filters and Search */}
+        <Card style={{ marginBottom: '30px' }}>
+          <Row gutter={[16, 16]} align="middle">
+            <Col xs={24} md={8}>
+              <Search
+                placeholder="Tìm kiếm phim..."
+                allowClear
+                enterButton={<SearchOutlined />}
+                size="middle"
+                onSearch={handleLocalSearch}
+                defaultValue={searchQuery}
+              />
+            </Col>
+            
+            <Col xs={24} sm={8} md={4}>
+              <Select
+                style={{ width: '100%' }}
+                placeholder="Thể loại"
+                value={selectedGenre}
+                onChange={setSelectedGenre}
+                suffixIcon={<FilterOutlined />}
+              >
+                <Option value="all">Tất cả thể loại</Option>
+                {genres.slice(1).map(genre => (
+                  <Option key={genre} value={genre}>{genre}</Option>
+                ))}
+              </Select>
+            </Col>
+
+            <Col xs={24} sm={8} md={4}>
+              <Select
+                style={{ width: '100%' }}
+                placeholder="Trạng thái"
+                value={selectedStatus}
+                onChange={setSelectedStatus}
+              >
+                <Option value="all">Tất cả phim</Option>
+                <Option value="now-showing">Đang chiếu</Option>
+                <Option value="coming-soon">Sắp chiếu</Option>
+              </Select>
+            </Col>
+
+            <Col xs={24} sm={8} md={4}>
+              <Select
+                style={{ width: '100%' }}
+                placeholder="Sắp xếp"
+                value={sortBy}
+                onChange={setSortBy}
+              >
+                <Option value="title">Tên phim A-Z</Option>
+                <Option value="rating">Đánh giá cao</Option>
+                <Option value="releaseDate">Mới nhất</Option>
+                <Option value="duration">Thời lượng</Option>
+              </Select>
+            </Col>
+
+            <Col xs={24} md={4}>
+              <Space>
+                <span style={{ color: '#666' }}>
+                  Tìm thấy: {displayMovies.length} phim
+                </span>
+              </Space>
+            </Col>
+          </Row>
+        </Card>
+
+        {/* Movies Grid */}
+        {error ? (
+          <Alert
+            message="Lỗi tải dữ liệu"
+            description={error}
+            type="error"
+            showIcon
+            style={{ marginBottom: '20px' }}
+          />
+        ) : isLoading ? (
+          <div style={{ textAlign: 'center', padding: '100px' }}>
+            <Spin size="large" />
+            <p style={{ marginTop: '20px', color: '#666' }}>Đang tải danh sách phim...</p>
+          </div>
+        ) : displayMovies.length > 0 ? (
+          <Row gutter={[16, 16]}>
+            {displayMovies.map(movie => (
+              <Col xs={24} sm={12} md={8} lg={6} key={movie.id}>
+                <MovieCard movie={movie} />
+              </Col>
+            ))}
+          </Row>
+        ) : (
+          <div style={{ textAlign: 'center', padding: '100px' }}>
+            <Alert
+              message={searchQuery ? "Không tìm thấy phim nào" : "Không có phim nào"}
+              description={
+                searchQuery 
+                  ? `Không tìm thấy phim nào với từ khóa "${searchQuery}"`
+                  : "Hiện tại không có phim nào phù hợp với bộ lọc đã chọn."
+              }
+              type="info"
+              showIcon
+            />
+          </div>
+        )}
+      </Content>
+    </Layout>
+  );
+};
+
+export default MovieListPage;
+```
+
+### src\pages\PaymentPage\PaymentPage.jsx
+```jsx
+import React, { useState, useEffect } from 'react';
+import { 
+  Layout, Row, Col, Typography, Card, Button, Form, Input, 
+  Radio, Alert, Modal, Result, Spin, Space, Tag, Divider 
+} from 'antd';
+import { 
+  CreditCardOutlined, UserOutlined, MailOutlined, PhoneOutlined,
+  BankOutlined, CheckCircleOutlined, CalendarOutlined, 
+  ClockCircleOutlined, EnvironmentOutlined
+} from '@ant-design/icons';
+import { useNavigate } from 'react-router-dom';
+import { bookingApi } from '../../api/movieApi';
+import { ROUTES } from '../../routes';
+
+const { Content } = Layout;
+const { Title, Text } = Typography;
+
+const PaymentPage = () => {
+  const navigate = useNavigate();
+  const [form] = Form.useForm();
+  
+  // States
+  const [loading, setLoading] = useState(false);
+  const [bookingInfo, setBookingInfo] = useState(null);
+  const [paymentMethod, setPaymentMethod] = useState('card');
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+
+  // Load booking info từ sessionStorage
+  useEffect(() => {
+    const storedInfo = sessionStorage.getItem('bookingInfo');
+    if (storedInfo) {
+      setBookingInfo(JSON.parse(storedInfo));
+    } else {
+      // Nếu không có thông tin booking, redirect về trang chủ
+      Modal.warning({
+        title: 'Không có thông tin đặt vé',
+        content: 'Vui lòng chọn phim và ghế trước khi thanh toán.',
+        onOk: () => navigate(ROUTES.HOME)
+      });
+    }
+  }, [navigate]);
+
+  // Xử lý thanh toán
+  const handlePayment = async (values) => {
+    if (!bookingInfo) return;
+
+    try {
+      setLoading(true);
+
+      // Tạo booking data
+      const bookingData = {
+        showtimeId: bookingInfo.showtimeId,
+        selectedSeats: bookingInfo.selectedSeats,
+        totalPrice: bookingInfo.totalPrice,
+        customerName: values.customerName,
+        customerEmail: values.customerEmail,
+        customerPhone: values.customerPhone || '',
+        paymentMethod: paymentMethod,
+        bookingTime: new Date().toISOString()
+      };
+
+      // Giả lập API call (thực tế sẽ gọi API thanh toán thật)
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      // Gọi API tạo booking
+      await bookingApi.createBooking(bookingData);
+
+      // Xóa thông tin booking từ sessionStorage
+      sessionStorage.removeItem('bookingInfo');
+
+      // Hiển thị modal thành công
+      setShowSuccessModal(true);
+
+    } catch (error) {
+      console.error('Payment error:', error);
+      Modal.error({
+        title: 'Thanh toán thất bại',
+        content: 'Có lỗi xảy ra trong quá trình thanh toán. Vui lòng thử lại.',
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Xử lý khi đóng modal thành công
+  const handleSuccessModalOk = () => {
+    setShowSuccessModal(false);
+    navigate(ROUTES.HOME);
+  };
+
+  // Format giá tiền
+  const formatPrice = (price) => {
+    return new Intl.NumberFormat('vi-VN', {
+      style: 'currency',
+      currency: 'VND'
+    }).format(price);
+  };
+
+  // Format ngày giờ
+  const formatDateTime = (date) => {
+    return new Date(date).toLocaleDateString('vi-VN', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+  };
+
+  if (!bookingInfo) {
+    return (
+      <Layout>
+        <Content style={{ padding: '50px 5%' }}>
+          <div style={{ textAlign: 'center', padding: '100px' }}>
+            <Spin size="large" />
+            <p style={{ marginTop: '20px', color: '#666' }}>Đang tải thông tin thanh toán...</p>
+          </div>
+        </Content>
+      </Layout>
+    );
+  }
+
+  const { movie, showtime, selectedSeats, totalPrice } = bookingInfo;
+
+  return (
+    <Layout>
+      <Content style={{ padding: '20px 5%', background: '#f5f5f5' }}>
+        {/* Header */}
+        <Card style={{ marginBottom: '20px' }}>
+          <Title level={2} style={{ margin: 0, textAlign: 'center' }}>
+            <CreditCardOutlined /> Thanh toán
+          </Title>
+        </Card>
+
+        <Row gutter={[20, 20]}>
+          {/* Form thanh toán */}
+          <Col xs={24} lg={14}>
+            <Card title="Thông tin thanh toán">
+              <Form
+                form={form}
+                layout="vertical"
+                onFinish={handlePayment}
+                initialValues={{
+                  customerName: '',
+                  customerEmail: '',
+                  customerPhone: ''
+                }}
+              >
+                {/* Thông tin khách hàng */}
+                <Title level={4}>
+                  <UserOutlined /> Thông tin khách hàng
+                </Title>
+
+                <Row gutter={[16, 0]}>
+                  <Col xs={24} sm={12}>
+                    <Form.Item
+                      label="Họ và tên"
+                      name="customerName"
+                      rules={[
+                        { required: true, message: 'Vui lòng nhập họ và tên' },
+                        { min: 2, message: 'Tên phải có ít nhất 2 ký tự' }
+                      ]}
+                    >
+                      <Input
+                        prefix={<UserOutlined />}
+                        placeholder="Nguyễn Văn A"
+                        size="large"
+                      />
+                    </Form.Item>
+                  </Col>
+                  <Col xs={24} sm={12}>
+                    <Form.Item
+                      label="Email"
+                      name="customerEmail"
+                      rules={[
+                        { required: true, message: 'Vui lòng nhập email' },
+                        { type: 'email', message: 'Email không hợp lệ' }
+                      ]}
+                    >
+                      <Input
+                        prefix={<MailOutlined />}
+                        placeholder="example@email.com"
+                        size="large"
+                      />
+                    </Form.Item>
+                  </Col>
+                  <Col xs={24}>
+                    <Form.Item
+                      label="Số điện thoại (tùy chọn)"
+                      name="customerPhone"
+                      rules={[
+                        { pattern: /^[0-9]{10,11}$/, message: 'Số điện thoại không hợp lệ' }
+                      ]}
+                    >
+                      <Input
+                        prefix={<PhoneOutlined />}
+                        placeholder="0123456789"
+                        size="large"
+                      />
+                    </Form.Item>
+                  </Col>
+                </Row>
+
+                <Divider />
+
+                {/* Phương thức thanh toán */}
+                <Title level={4}>
+                  <CreditCardOutlined /> Phương thức thanh toán
+                </Title>
+
+                <Radio.Group
+                  value={paymentMethod}
+                  onChange={(e) => setPaymentMethod(e.target.value)}
+                  style={{ width: '100%' }}
+                >
+                  <Space direction="vertical" style={{ width: '100%' }}>
+                    <Radio value="card">
+                      <CreditCardOutlined /> Thẻ tín dụng / Thẻ ghi nợ
+                    </Radio>
+                    <Radio value="banking">
+                      <BankOutlined /> Chuyển khoản ngân hàng
+                    </Radio>
+                    <Radio value="ewallet">
+                      📱 Ví điện tử (MoMo, ZaloPay, VNPay)
+                    </Radio>
+                  </Space>
+                </Radio.Group>
+
+                {/* Thông tin thanh toán giả lập */}
+                {paymentMethod === 'card' && (
+                  <Alert
+                    message="Thanh toán thẻ"
+                    description="Đây là demo - không yêu cầu thông tin thẻ thật. Nhấn 'Xác nhận thanh toán' để hoàn tất."
+                    type="info"
+                    showIcon
+                    style={{ marginTop: '16px' }}
+                  />
+                )}
+
+                {paymentMethod === 'banking' && (
+                  <Alert
+                    message="Chuyển khoản ngân hàng"
+                    description="Đây là demo - không có giao dịch thật. Nhấn 'Xác nhận thanh toán' để hoàn tất."
+                    type="info"
+                    showIcon
+                    style={{ marginTop: '16px' }}
+                  />
+                )}
+
+                {paymentMethod === 'ewallet' && (
+                  <Alert
+                    message="Ví điện tử"
+                    description="Đây là demo - không kết nối ví thật. Nhấn 'Xác nhận thanh toán' để hoàn tất."
+                    type="info"
+                    showIcon
+                    style={{ marginTop: '16px' }}
+                  />
+                )}
+
+                <Divider />
+
+                {/* Nút thanh toán */}
+                <Form.Item>
+                  <Space size="middle" style={{ width: '100%', justifyContent: 'center' }}>
+                    <Button 
+                      size="large" 
+                      onClick={() => navigate(-1)}
+                    >
+                      Quay lại
+                    </Button>
+                    <Button
+                      type="primary"
+                      htmlType="submit"
+                      size="large"
+                      loading={loading}
+                      icon={<CheckCircleOutlined />}
+                    >
+                      {loading ? 'Đang xử lý...' : `Xác nhận thanh toán ${formatPrice(totalPrice)}`}
+                    </Button>
+                  </Space>
+                </Form.Item>
+              </Form>
+            </Card>
+          </Col>
+
+          {/* Tóm tắt đơn hàng */}
+          <Col xs={24} lg={10}>
+            {/* Thông tin phim */}
+            <Card 
+              title="Thông tin đặt vé"
+              style={{ marginBottom: '20px' }}
+            >
+              <Space direction="vertical" size="middle" style={{ width: '100%' }}>
+                <div style={{ textAlign: 'center' }}>
+                  <img
+                    src={`https://via.placeholder.com/200x300/1890ff/ffffff?text=${encodeURIComponent(movie.title)}`}
+                    alt={movie.title}
+                    style={{
+                      width: '150px',
+                      borderRadius: '8px',
+                      marginBottom: '12px'
+                    }}
+                  />
+                  <Title level={4} style={{ margin: 0 }}>{movie.title}</Title>
+                </div>
+
+                <Divider style={{ margin: '12px 0' }} />
+
+                <div>
+                  <Space>
+                    <EnvironmentOutlined />
+                    <Text strong>Rạp:</Text>
+                    <Text>{showtime.cinema}</Text>
+                  </Space>
+                </div>
+
+                <div>
+                  <Space>
+                    <CalendarOutlined />
+                    <Text strong>Ngày:</Text>
+                    <Text>{formatDateTime(showtime.date)}</Text>
+                  </Space>
+                </div>
+
+                <div>
+                  <Space>
+                    <ClockCircleOutlined />
+                    <Text strong>Giờ:</Text>
+                    {showtime.times.map((time, index) => (
+                      <Tag key={index} color="blue">{time}</Tag>
+                    ))}
+                  </Space>
+                </div>
+
+                <div>
+                  <Text strong>Ghế đã chọn:</Text>
+                  <br />
+                  <Space wrap>
+                    {selectedSeats.sort().map((seat, index) => (
+                      <Tag key={index} color="green" style={{ margin: '2px' }}>
+                        {seat}
+                      </Tag>
+                    ))}
+                  </Space>
+                </div>
+
+                <div>
+                  <Text strong>Số lượng vé:</Text>
+                  <Text style={{ marginLeft: '8px' }}>{selectedSeats.length} vé</Text>
+                </div>
+              </Space>
+            </Card>
+
+            {/* Tổng thanh toán */}
+            <Card title="Chi tiết thanh toán">
+              <Space direction="vertical" size="small" style={{ width: '100%' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <Text>Vé xem phim ({selectedSeats.length} vé):</Text>
+                  <Text>{formatPrice(totalPrice)}</Text>
+                </div>
+                
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <Text>Phí dịch vụ:</Text>
+                  <Text>{formatPrice(0)}</Text>
+                </div>
+
+                <Divider style={{ margin: '12px 0' }} />
+
+                <div style={{ 
+                  display: 'flex', 
+                  justifyContent: 'space-between',
+                  fontSize: '18px',
+                  fontWeight: 'bold'
+                }}>
+                  <Text strong>Tổng thanh toán:</Text>
+                  <Text strong style={{ color: '#f5222d', fontSize: '20px' }}>
+                    {formatPrice(totalPrice)}
+                  </Text>
+                </div>
+              </Space>
+            </Card>
+
+            {/* Lưu ý */}
+            <Alert
+              message="Lưu ý quan trọng"
+              description={
+                <ul style={{ margin: 0, paddingLeft: '16px' }}>
+                  <li>Đây là ứng dụng demo, không có giao dịch thanh toán thật</li>
+                  <li>Thông tin được nhập chỉ để mục đích thử nghiệm</li>
+                  <li>Vé đã "mua" chỉ tồn tại trong phiên làm việc này</li>
+                </ul>
+              }
+              type="warning"
+              showIcon
+              style={{ marginTop: '20px' }}
+            />
+          </Col>
+        </Row>
+
+        {/* Modal thành công */}
+        <Modal
+          open={showSuccessModal}
+          onOk={handleSuccessModalOk}
+          onCancel={handleSuccessModalOk}
+          footer={[
+            <Button key="ok" type="primary" size="large" onClick={handleSuccessModalOk}>
+              Về trang chủ
+            </Button>
+          ]}
+          width={500}
+          centered
+        >
+          <Result
+            status="success"
+            title="Đặt vé thành công!"
+            subTitle={
+              <div>
+                <p>Cảm ơn bạn đã sử dụng dịch vụ Movix!</p>
+                <p><strong>Mã đặt vé:</strong> MV{Date.now()}</p>
+                <p><strong>Phim:</strong> {movie.title}</p>
+                <p><strong>Ghế:</strong> {selectedSeats.sort().join(', ')}</p>
+                <p><strong>Tổng tiền:</strong> <span style={{color: '#f5222d'}}>{formatPrice(totalPrice)}</span></p>
+              </div>
+            }
+          />
+        </Modal>
+      </Content>
+    </Layout>
+  );
+};
+
+export default PaymentPage;
+```
+
+### src\services\geminiService.js
+```js
+import { GoogleGenerativeAI } from '@google/generative-ai';
+
+// Cấu hình API key
+const GEMINI_API_KEY = 'AIzaSyDa3VH3i1MZ6xJCF9j8iHzTlPf0GjgVeUw';
+
+// Khởi tạo Google Generative AI
+const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
+
+// Dữ liệu phim để AI tham khảo (có thể cập nhật từ API)
+const MOVIE_DATA = {
+  "movies": [
+    {
+      "id": 1,
+      "title": "Lật Mặt 7: Một Điều Ước",
+      "director": "Lý Hải",
+      "cast": ["Trương Minh Cường", "Đinh Y Nhung", "Thanh Thức"],
+      "genre": ["Hành Động", "Gia Đình"],
+      "duration": 120,
+      "releaseDate": "2025-04-26",
+      "description": "Câu chuyện cảm động về tình mẫu tử và sự hy sinh.",
+      "rating": 8.5,
+      "status": "now-showing"
+    },
+    {
+      "id": 2,
+      "title": "Doraemon: Nobita và Bản Giao Hưởng Địa Cầu",
+      "director": "Imai Kazuaki",
+      "cast": ["Wasabi Mizuta", "Megumi Oohara"],
+      "genre": ["Hoạt Hình", "Phiêu Lưu"],
+      "duration": 95,
+      "releaseDate": "2025-05-24",
+      "description": "Cuộc phiêu lưu âm nhạc của Nobita và những người bạn.",
+      "rating": 8.0,
+      "status": "coming-soon"
+    }
+  ]
+};
+
+// System prompt để định hướng cho AI
+const SYSTEM_PROMPT = `
+Bạn là trợ lý AI thông minh của hệ thống đặt vé xem phim Movix. Nhiệm vụ của bạn là:
+
+1. TƯ VẤN VÀ GỢI Ý PHIM:
+   - Gợi ý phim phù hợp với sở thích, thể loại, tâm trạng
+   - So sánh và đánh giá các bộ phim
+   - Giải thích nội dung, diễn viên, đạo diễn
+
+2. HỖ TRỢ ĐẶT VÉ:
+   - Hướng dẫn quy trình đặt vé
+   - Giải thích các bước chọn ghế, thanh toán
+   - Trả lời câu hỏi về lịch chiếu, rạp phim
+
+3. DỮ LIỆU PHIM HIỆN TẠI:
+${JSON.stringify(MOVIE_DATA, null, 2)}
+
+HƯỚNG DẪN TRẢ LỜI:
+- Luôn thân thiện, nhiệt tình và hữu ích
+- Sử dụng emoji phù hợp để tạo không khí vui vẻ
+- Trả lời bằng tiếng Việt tự nhiên
+- Đưa ra gợi ý cụ thể dựa trên dữ liệu phim
+- Nếu không có thông tin, hãy thẳng thắn nói và gợi ý người dùng liên hệ nhân viên
+
+Hãy trả lời một cách ngắn gọn, súc tích nhưng đầy đủ thông tin!
+`;
+
+/**
+ * Hàm gọi Gemini AI để xử lý câu hỏi của người dùng
+ * @param {string} userMessage - Tin nhắn từ người dùng
+ * @returns {Promise<string>} - Phản hồi từ AI
+ */
+export const askGemini = async (userMessage) => {
+  try {
+    // Lấy model Gemini Pro
+    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+
+    // Tạo prompt hoàn chính
+    const fullPrompt = `${SYSTEM_PROMPT}\n\nCâu hỏi từ khách hàng: ${userMessage}`;
+
+    // Gọi API
+    const result = await model.generateContent(fullPrompt);
+    const response = await result.response;
+    const text = response.text();
+
+    return text;
+
+  } catch (error) {
+    console.error('Lỗi khi gọi Gemini API:', error);
+    
+    // Xử lý các loại lỗi khác nhau
+    if (error.message?.includes('API key')) {
+      return 'Xin lỗi, có vấn đề với API key. Vui lòng liên hệ quản trị viên! 🔧';
+    } else if (error.message?.includes('quota')) {
+      return 'Hệ thống đang bận, vui lòng thử lại sau ít phút! ⏰';
+    } else if (error.message?.includes('network')) {
+      return 'Có vấn đề kết nối mạng. Vui lòng kiểm tra kết nối và thử lại! 🌐';
+    } else {
+      return 'Xin lỗi, tôi gặp chút trục trặc kỹ thuật. Vui lòng thử lại hoặc liên hệ nhân viên hỗ trợ! 🤖💔';
+    }
+  }
+};
+
+/**
+ * Hàm cập nhật dữ liệu phim cho AI (có thể gọi khi load trang)
+ * @param {Array} movies - Danh sách phim mới
+ */
+export const updateMovieData = (movies) => {
+  MOVIE_DATA.movies = movies;
+};
+
+/**
+ * Hàm kiểm tra trạng thái kết nối API
+ * @returns {Promise<boolean>} - true nếu API hoạt động
+ */
+export const checkGeminiConnection = async () => {
+  try {
+    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+    const result = await model.generateContent("Xin chào");
+    return true;
+  } catch (error) {
+    console.error('Không thể kết nối đến Gemini API:', error);
+    return false;
+  }
+};
+
+export default {
+  askGemini,
+  updateMovieData,
+  checkGeminiConnection
+};
+```
+
+
+db.json
+{
+  "movies": [
+    {
+      "id": 1,
+      "title": "Lật Mặt 7: Một Điều Ước",
+      "director": "Lý Hải",
+      "cast": [
+        "Trương Minh Cường",
+        "Đinh Y Nhung",
+        "Thanh Thức"
+      ],
+      "genre": [
+        "Hành Động",
+        "Gia Đình"
+      ],
+      "duration": 120,
+      "releaseDate": "2025-04-26",
+      "description": "Câu chuyện cảm động về tình mẫu tử và sự hy sinh của một người mẹ dành cho con trai. Phim mang đến những thông điệp sâu sắc về tình yêu gia đình.",
+      "posterUrl": "https://upload.wikimedia.org/wikipedia/vi/d/d4/%C3%81p_ph%C3%ADch_ch%C3%ADnh_th%E1%BB%A9c_L%E1%BA%ADt_m%E1%BA%B7t_7.jpg",
+      "trailerUrl": "https://www.youtube.com/watch?v=d1ZHdosjNX8",
+      "rating": 8.5,
+      "status": "now-showing"
+    },
+    {
+      "id": 2,
+      "title": "Doraemon: Nobita và Bản Giao Hưởng Địa Cầu",
+      "director": "Imai Kazuaki",
+      "cast": [
+        "Wasabi Mizuta",
+        "Megumi Oohara"
+      ],
+      "genre": [
+        "Hoạt Hình",
+        "Phiêu Lưu"
+      ],
+      "duration": 95,
+      "releaseDate": "2025-05-24",
+      "description": "Cuộc phiêu lưu âm nhạc của Nobita và những người bạn khám phá thế giới âm thanh kỳ diệu.",
+      "posterUrl": "https://iguov8nhvyobj.vcdn.cloud/media/catalog/product/cache/3/image/c5f0a1eff4c394a251036189ccddaacd/d/r/drm24_-_poster.jpg",
+      "trailerUrl": "https://www.youtube.com/watch?v=Yug8gbDd5EQ",
+      "rating": 8,
+      "status": "coming-soon"
+    },
+    {
+      "id": 3,
+      "title": "Avatar: The Way of Water",
+      "director": "James Cameron",
+      "cast": [
+        "Sam Worthington",
+        "Zoe Saldana",
+        "Sigourney Weaver"
+      ],
+      "genre": [
+        "Khoa học viễn tưởng",
+        "Hành động"
+      ],
+      "duration": 192,
+      "releaseDate": "2024-12-16",
+      "description": "Tiếp tục câu chuyện của Jake Sully và gia đình anh trên hành tinh Pandora với những cuộc phiêu lưu dưới đại dương.",
+      "posterUrl": "https://upload.wikimedia.org/wikipedia/en/5/54/Avatar_The_Way_of_Water_poster.jpg",
+      "trailerUrl": "https://www.youtube.com/watch?v=d9MyW72ELq0",
+      "rating": 9.2,
+      "status": "now-showing"
+    },
+    {
+      "id": 4,
+      "title": "Spider-Man: Across the Spider-Verse",
+      "director": "Joaquim Dos Santos",
+      "cast": [
+        "Shameik Moore",
+        "Hailee Steinfeld",
+        "Brian Tyree Henry"
+      ],
+      "genre": [
+        "Hoạt hình",
+        "Siêu anh hùng"
+      ],
+      "duration": 140,
+      "releaseDate": "2025-06-02",
+      "description": "Miles Morales trở lại trong cuộc phiêu lưu xuyên đa vũ trụ đầy màu sắc và hành động.",
+      "posterUrl": "https://upload.wikimedia.org/wikipedia/en/thumb/b/b4/Spider-Man-_Across_the_Spider-Verse_poster.jpg/250px-Spider-Man-_Across_the_Spider-Verse_poster.jpg",
+      "trailerUrl": "https://www.youtube.com/watch?v=shW9i6k8cB0",
+      "rating": 8.8,
+      "status": "coming-soon"
+    },
+    {
+      "id": 5,
+      "title": "John Wick: Chapter 4",
+      "director": "Chad Stahelski",
+      "cast": [
+        "Keanu Reeves",
+        "Donnie Yen",
+        "Bill Skarsgård"
+      ],
+      "genre": [
+        "Hành động",
+        "Thriller"
+      ],
+      "duration": 169,
+      "releaseDate": "2025-03-24",
+      "description": "John Wick phải đối mặt với những kẻ thù mạnh nhất trong cuộc chiến cuối cùng để giành lại tự do.",
+      "posterUrl": "https://cinema.momocdn.net/img/79002770228187753-jPJfq3s7UybktndveSbhwsReYqH.jpg",
+      "trailerUrl": "https://www.youtube.com/watch?v=qEVUtrk8_B4",
+      "rating": 8.7,
+      "status": "now-showing"
+    },
+    {
+      "id": 6,
+      "title": "Fast X",
+      "director": "Louis Leterrier",
+      "cast": [
+        "Vin Diesel",
+        "Michelle Rodriguez",
+        "Tyrese Gibson"
+      ],
+      "genre": [
+        "Hành động",
+        "Tội phạm"
+      ],
+      "duration": 141,
+      "releaseDate": "2025-05-19",
+      "description": "Dom Toretto và gia đình phải đối mặt với đối thủ nguy hiểm nhất từ trước đến nay.",
+      "posterUrl": "https://upload.wikimedia.org/wikipedia/vi/2/22/Fast_X_VN_poster.jpg",
+      "trailerUrl": "https://www.youtube.com/watch?v=JSE9vhCuxs8",
+      "rating": 7.5,
+      "status": "now-showing"
+    }
+  ],
+  "showtimes": [
+    {
+      "id": 1,
+      "movieId": 1,
+      "cinema": "CGV Vincom Center",
+      "date": "2025-09-28",
+      "times": [
+        "09:30",
+        "12:00",
+        "15:15",
+        "18:30",
+        "21:00"
+      ]
+    },
+    {
+      "id": 2,
+      "movieId": 1,
+      "cinema": "Lotte Cinema Cantavil",
+      "date": "2025-09-28",
+      "times": [
+        "10:00",
+        "13:00",
+        "16:00",
+        "19:00"
+      ]
+    },
+    {
+      "id": 3,
+      "movieId": 2,
+      "cinema": "CGV Vincom Center",
+      "date": "2025-09-28",
+      "times": [
+        "09:00",
+        "11:00",
+        "14:00",
+        "17:00"
+      ]
+    },
+    {
+      "id": 4,
+      "movieId": 3,
+      "cinema": "CGV Vincom Center",
+      "date": "2025-09-28",
+      "times": [
+        "10:30",
+        "13:30",
+        "16:30",
+        "19:30"
+      ]
+    },
+    {
+      "id": 5,
+      "movieId": 3,
+      "cinema": "Galaxy Cinema",
+      "date": "2025-09-28",
+      "times": [
+        "11:00",
+        "14:00",
+        "17:00",
+        "20:00"
+      ]
+    },
+    {
+      "id": 6,
+      "movieId": 5,
+      "cinema": "BHD Star",
+      "date": "2025-09-28",
+      "times": [
+        "12:30",
+        "15:30",
+        "18:30",
+        "21:30"
+      ]
+    },
+    {
+      "id": 7,
+      "movieId": 6,
+      "cinema": "CGV Vincom Center",
+      "date": "2025-09-28",
+      "times": [
+        "13:00",
+        "16:00",
+        "19:00",
+        "22:00"
+      ]
+    }
+  ],
+  "bookings": [
+    {
+      "id": 1,
+      "showtimeId": 1,
+      "selectedSeats": [
+        "A1",
+        "A2"
+      ],
+      "totalPrice": 180000,
+      "customerName": "Nguyễn Văn A",
+      "customerEmail": "nguyenvana@email.com",
+      "bookingTime": "2025-09-27T10:00:00Z"
+    },
+    {
+      "showtimeId": "2",
+      "selectedSeats": [
+        "E1",
+        "E2",
+        "E3",
+        "E4"
+      ],
+      "totalPrice": 360000,
+      "customerName": "Phạm Quốc Hiệu",
+      "customerEmail": "zzzz29052004@gmail.com",
+      "customerPhone": "0935493426",
+      "paymentMethod": "ewallet",
+      "bookingTime": "2025-09-27T10:18:14.277Z",
+      "id": 1758968296278,
+      "createdAt": "2025-09-27T10:18:16.278Z"
+    }
+  ],
+  "seatStatus": {
+    "1": {
+      "09:30": [
+        "C5",
+        "C6",
+        "D5",
+        "D6"
+      ],
+      "12:00": [
+        "F8",
+        "G8",
+        "G9"
+      ],
+      "15:15": [
+        "B3",
+        "B4",
+        "H7"
+      ],
+      "18:30": [
+        "A1",
+        "A2",
+        "J8",
+        "J9",
+        "J10"
+      ],
+      "21:00": [
+        "E5",
+        "E6",
+        "F5"
+      ]
+    },
+    "2": {
+      "10:00": [
+        "D7",
+        "D8"
+      ],
+      "13:00": [
+        "G3",
+        "G4",
+        "G5"
+      ],
+      "16:00": [
+        "A5",
+        "A6"
+      ],
+      "19:00": [
+        "I8",
+        "I9"
+      ]
+    },
+    "3": {
+      "09:00": [
+        "C1",
+        "C2"
+      ],
+      "11:00": [
+        "F4",
+        "F5",
+        "F6"
+      ],
+      "14:00": [
+        "H1",
+        "H2"
+      ],
+      "17:00": [
+        "B7",
+        "B8",
+        "B9"
+      ]
+    },
+    "4": {
+      "10:30": [
+        "E3",
+        "E4"
+      ],
+      "13:30": [
+        "G6",
+        "G7"
+      ],
+      "16:30": [
+        "A3",
+        "A4"
+      ],
+      "19:30": [
+        "J3",
+        "J4",
+        "J5"
+      ]
+    }
+  }
+}

@@ -1,0 +1,337 @@
+{
+  "movies": [
+    {
+      "id": 1,
+      "title": "Lật Mặt 7: Một Điều Ước",
+      "director": "Lý Hải",
+      "cast": [
+        "Trương Minh Cường",
+        "Đinh Y Nhung",
+        "Thanh Thức"
+      ],
+      "genre": [
+        "Hành Động",
+        "Gia Đình"
+      ],
+      "duration": 120,
+      "releaseDate": "2025-04-26",
+      "description": "Câu chuyện cảm động về tình mẫu tử và sự hy sinh của một người mẹ dành cho con trai. Phim mang đến những thông điệp sâu sắc về tình yêu gia đình.",
+      "posterUrl": "https://upload.wikimedia.org/wikipedia/vi/d/d4/%C3%81p_ph%C3%ADch_ch%C3%ADnh_th%E1%BB%A9c_L%E1%BA%ADt_m%E1%BA%B7t_7.jpg",
+      "trailerUrl": "https://www.youtube.com/watch?v=d1ZHdosjNX8",
+      "rating": 8.5,
+      "status": "now-showing"
+    },
+    {
+      "id": 2,
+      "title": "Doraemon: Nobita và Bản Giao Hưởng Địa Cầu",
+      "director": "Imai Kazuaki",
+      "cast": [
+        "Wasabi Mizuta",
+        "Megumi Oohara"
+      ],
+      "genre": [
+        "Hoạt Hình",
+        "Phiêu Lưu"
+      ],
+      "duration": 95,
+      "releaseDate": "2025-05-24",
+      "description": "Cuộc phiêu lưu âm nhạc của Nobita và những người bạn khám phá thế giới âm thanh kỳ diệu.",
+      "posterUrl": "https://iguov8nhvyobj.vcdn.cloud/media/catalog/product/cache/3/image/c5f0a1eff4c394a251036189ccddaacd/d/r/drm24_-_poster.jpg",
+      "trailerUrl": "https://www.youtube.com/watch?v=Yug8gbDd5EQ",
+      "rating": 8,
+      "status": "coming-soon"
+    },
+    {
+      "id": 3,
+      "title": "Avatar: The Way of Water",
+      "director": "James Cameron",
+      "cast": [
+        "Sam Worthington",
+        "Zoe Saldana",
+        "Sigourney Weaver"
+      ],
+      "genre": [
+        "Khoa học viễn tưởng",
+        "Hành động"
+      ],
+      "duration": 192,
+      "releaseDate": "2024-12-16",
+      "description": "Tiếp tục câu chuyện của Jake Sully và gia đình anh trên hành tinh Pandora với những cuộc phiêu lưu dưới đại dương.",
+      "posterUrl": "https://upload.wikimedia.org/wikipedia/en/5/54/Avatar_The_Way_of_Water_poster.jpg",
+      "trailerUrl": "https://www.youtube.com/watch?v=d9MyW72ELq0",
+      "rating": 9.2,
+      "status": "now-showing"
+    },
+    {
+      "id": 4,
+      "title": "Spider-Man: Across the Spider-Verse",
+      "director": "Joaquim Dos Santos",
+      "cast": [
+        "Shameik Moore",
+        "Hailee Steinfeld",
+        "Brian Tyree Henry"
+      ],
+      "genre": [
+        "Hoạt hình",
+        "Siêu anh hùng"
+      ],
+      "duration": 140,
+      "releaseDate": "2025-06-02",
+      "description": "Miles Morales trở lại trong cuộc phiêu lưu xuyên đa vũ trụ đầy màu sắc và hành động.",
+      "posterUrl": "https://upload.wikimedia.org/wikipedia/en/thumb/b/b4/Spider-Man-_Across_the_Spider-Verse_poster.jpg/250px-Spider-Man-_Across_the_Spider-Verse_poster.jpg",
+      "trailerUrl": "https://www.youtube.com/watch?v=shW9i6k8cB0",
+      "rating": 8.8,
+      "status": "coming-soon"
+    },
+    {
+      "id": 5,
+      "title": "John Wick: Chapter 4",
+      "director": "Chad Stahelski",
+      "cast": [
+        "Keanu Reeves",
+        "Donnie Yen",
+        "Bill Skarsgård"
+      ],
+      "genre": [
+        "Hành động",
+        "Thriller"
+      ],
+      "duration": 169,
+      "releaseDate": "2025-03-24",
+      "description": "John Wick phải đối mặt với những kẻ thù mạnh nhất trong cuộc chiến cuối cùng để giành lại tự do.",
+      "posterUrl": "https://cinema.momocdn.net/img/79002770228187753-jPJfq3s7UybktndveSbhwsReYqH.jpg",
+      "trailerUrl": "https://www.youtube.com/watch?v=qEVUtrk8_B4",
+      "rating": 8.7,
+      "status": "now-showing"
+    },
+    {
+      "id": 6,
+      "title": "Fast X",
+      "director": "Louis Leterrier",
+      "cast": [
+        "Vin Diesel",
+        "Michelle Rodriguez",
+        "Tyrese Gibson"
+      ],
+      "genre": [
+        "Hành động",
+        "Tội phạm"
+      ],
+      "duration": 141,
+      "releaseDate": "2025-05-19",
+      "description": "Dom Toretto và gia đình phải đối mặt với đối thủ nguy hiểm nhất từ trước đến nay.",
+      "posterUrl": "https://upload.wikimedia.org/wikipedia/vi/2/22/Fast_X_VN_poster.jpg",
+      "trailerUrl": "https://www.youtube.com/watch?v=JSE9vhCuxs8",
+      "rating": 7.5,
+      "status": "now-showing"
+    }
+  ],
+  "showtimes": [
+    {
+      "id": 1,
+      "movieId": 1,
+      "cinema": "CGV Vincom Center",
+      "date": "2025-09-28",
+      "times": [
+        "09:30",
+        "12:00",
+        "15:15",
+        "18:30",
+        "21:00"
+      ]
+    },
+    {
+      "id": 2,
+      "movieId": 1,
+      "cinema": "Lotte Cinema Cantavil",
+      "date": "2025-09-28",
+      "times": [
+        "10:00",
+        "13:00",
+        "16:00",
+        "19:00"
+      ]
+    },
+    {
+      "id": 3,
+      "movieId": 2,
+      "cinema": "CGV Vincom Center",
+      "date": "2025-09-28",
+      "times": [
+        "09:00",
+        "11:00",
+        "14:00",
+        "17:00"
+      ]
+    },
+    {
+      "id": 4,
+      "movieId": 3,
+      "cinema": "CGV Vincom Center",
+      "date": "2025-09-28",
+      "times": [
+        "10:30",
+        "13:30",
+        "16:30",
+        "19:30"
+      ]
+    },
+    {
+      "id": 5,
+      "movieId": 3,
+      "cinema": "Galaxy Cinema",
+      "date": "2025-09-28",
+      "times": [
+        "11:00",
+        "14:00",
+        "17:00",
+        "20:00"
+      ]
+    },
+    {
+      "id": 6,
+      "movieId": 5,
+      "cinema": "BHD Star",
+      "date": "2025-09-28",
+      "times": [
+        "12:30",
+        "15:30",
+        "18:30",
+        "21:30"
+      ]
+    },
+    {
+      "id": 7,
+      "movieId": 6,
+      "cinema": "CGV Vincom Center",
+      "date": "2025-09-28",
+      "times": [
+        "13:00",
+        "16:00",
+        "19:00",
+        "22:00"
+      ]
+    }
+  ],
+  "bookings": [
+    {
+      "id": 1,
+      "showtimeId": 1,
+      "selectedSeats": [
+        "A1",
+        "A2"
+      ],
+      "totalPrice": 180000,
+      "customerName": "Nguyễn Văn A",
+      "customerEmail": "nguyenvana@email.com",
+      "bookingTime": "2025-09-27T10:00:00Z"
+    },
+    {
+      "showtimeId": "2",
+      "selectedSeats": [
+        "E1",
+        "E2",
+        "E3",
+        "E4"
+      ],
+      "totalPrice": 360000,
+      "customerName": "Phạm Quốc Hiệu",
+      "customerEmail": "zzzz29052004@gmail.com",
+      "customerPhone": "0935493426",
+      "paymentMethod": "ewallet",
+      "bookingTime": "2025-09-27T10:18:14.277Z",
+      "id": 1758968296278,
+      "createdAt": "2025-09-27T10:18:16.278Z"
+    }
+  ],
+  "seatStatus": {
+    "1": {
+      "09:30": [
+        "C5",
+        "C6",
+        "D5",
+        "D6"
+      ],
+      "12:00": [
+        "F8",
+        "G8",
+        "G9"
+      ],
+      "15:15": [
+        "B3",
+        "B4",
+        "H7"
+      ],
+      "18:30": [
+        "A1",
+        "A2",
+        "J8",
+        "J9",
+        "J10"
+      ],
+      "21:00": [
+        "E5",
+        "E6",
+        "F5"
+      ]
+    },
+    "2": {
+      "10:00": [
+        "D7",
+        "D8"
+      ],
+      "13:00": [
+        "G3",
+        "G4",
+        "G5"
+      ],
+      "16:00": [
+        "A5",
+        "A6"
+      ],
+      "19:00": [
+        "I8",
+        "I9"
+      ]
+    },
+    "3": {
+      "09:00": [
+        "C1",
+        "C2"
+      ],
+      "11:00": [
+        "F4",
+        "F5",
+        "F6"
+      ],
+      "14:00": [
+        "H1",
+        "H2"
+      ],
+      "17:00": [
+        "B7",
+        "B8",
+        "B9"
+      ]
+    },
+    "4": {
+      "10:30": [
+        "E3",
+        "E4"
+      ],
+      "13:30": [
+        "G6",
+        "G7"
+      ],
+      "16:30": [
+        "A3",
+        "A4"
+      ],
+      "19:30": [
+        "J3",
+        "J4",
+        "J5"
+      ]
+    }
+  }
+}
